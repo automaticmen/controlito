@@ -1,0 +1,24 @@
+Pasos para el deplyment de controlito hasta ahora
+1 Borra los fuentes de controlito, a ver para cambios menores no puedo hacer esto porque sino imaginate tu.
+2 Pega el zip y descomprime
+3 Luego en el panel de control de mocha setup a ruby app. Esta esta desarrollada con ruby 2.3 elige esta
+4 Fijate que ahi en la parte Command for entering to virtual environment	tienes un camino eso es para entrar en el entorno de la app.
+5 Lugeo ve al command line y pega el "Command for entering to virtual environment"
+6 luego desplazate hacia la carpeta de controlito cd controlito
+7 ahi en la carpeta ejecuta gem install bundler
+8 luego bundle install ahi va a empezar a instalar las cosas y puede que se demore un poquito tu espera tranquilo, mientras escrivbo esto estoy esperando , y espero mas y un poquito mas y quizas algo mas :) incluso mas que te puedo decir y mas y mas y mas y mas
+9 Ya termino ahora comienza la pasion trata de ejecutar la app.
+10 En tu pc estabas en mode desarrollo pero aqui es produccion. No tienes base de datos de produccion por eso te da el berro
+RAILS_ENV=production rails db:migrate
+11 Esto te va a dar el berro con Big Decimal tienes que arreglarlo para arreglarlo tienes que descomentar en el gemfile el bigdecila y darle de nuevo budle install
+12 entonces ahora de nuevo
+13 No te lleva a la pantalla de logueo : Filter chain halted as :require_login rendered or redirected esto es porqu eno hay ningun usuario creado para loguearse crea un usuario y ya veras como todo funciona.
+14 ahora se ve feo con pinga, esto es porque no esta funcionando bootstrap. has esto RAILS_ENV=production rails assets:precompile
+15 te va  dar bateo con turbolinks tienes que comentar eso
+16 vuelve a ejecutar RAILS_ENV=production rails assets:precompile
+17 Se seguira viendo feo de cojones has esto config.serve_static_files = true  en el fichero production.rb file en la carpeta config/environment quita lo que dice y ponle true
+17 RAILS_ENV=production db:seed para que llene las tablas auxiliares
+17 Listo
+
+
+developer@gmail.com
