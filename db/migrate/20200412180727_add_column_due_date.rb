@@ -1,0 +1,5 @@
+class AddColumnDueDate < ActiveRecord::Migration[5.1]
+  def change
+    add_column :fiverr_orders , :due_date, :datetime
+  end
+end

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Controlito</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <!--Aqui hemos añadido el div container para que lo que venga aqui adentro se aplique bootstrap-->
+    <div class="container-fluid" style="border:1px solid #cecece;">
+      <div class="row">
+        <div class="col-md-2">
+          <h2>Controlito</h2>
+        </div>
+        <div class="col-md-9">
+        </div>
+        <div class="col-md-1 align-self-end">
+          <%= link_to "Log Out","/log_out"%>
+        </div>
+      </div>
+
+      <!--AQUI VAN TODAS LAS OPCIONES DEL MENU DE LA IZQUIERDA-->
+      <div class="row">
+        <div class="col-md-2">
+          <!--CREAR ORDEN NUEVA-->
+          <h4>CREAR ORDEN</h4>
+          <a href="/fiverr_orders/new">Nueva Orden</a><br>
+          <a href="/fiverr_orders">Todas</a><br>
+
+          <!--REFERENTE A PR9-->
+          <h4>GIG PR9</h4>
+          <%= link_to "Resumen",fiverr_orders_show_path(:order_type=>"PR9_GIG") %><br>
+          <a href="/fiverr_orders?utf8=✓&order_type%5Border_type_id%5D=10&order_status%5Border_status_id%5D=&server%5Bserver_id%5D=&order_no=&commit=Search">PR9 Basic</a><br>
+          <a href="/fiverr_orders?utf8=✓&order_type%5Border_type_id%5D=11&order_status%5Border_status_id%5D=&server%5Bserver_id%5D=&order_no=&commit=Search">PR9 Standard</a><br>
+          <a href="/fiverr_orders?utf8=✓&order_type%5Border_type_id%5D=12&order_status%5Border_status_id%5D=&server%5Bserver_id%5D=&order_no=&commit=Search">PR9 Premium</a><br>
+
+          <!--REFERENTE A TRAFFIC-->
+          <h4>GIG TRAFFIC</h4>
+          <%= link_to "Resumen",fiverr_orders_show_path(:order_type=>"PR9_TRAFFIC") %><br>
+          <a href="/fiverr_orders?utf8=✓&order_type%5Border_type_id%5D=13&order_status%5Border_status_id%5D=&server%5Bserver_id%5D=&order_no=&commit=Search">Traffic Basic</a><br>
+          <a href="/fiverr_orders?utf8=✓&order_type%5Border_type_id%5D=14&order_status%5Border_status_id%5D=&server%5Bserver_id%5D=&order_no=&commit=Search">Traffic Standard</a><br>
+          <a href="/fiverr_orders?utf8=✓&order_type%5Border_type_id%5D=15&order_status%5Border_status_id%5D=&server%5Bserver_id%5D=&order_no=&commit=Search">Traffic Premium</a><br>
+
+          <!--REFERENTE A ARTICULOS-->
+          <h4>ARTICULOS</h4>
+          <a href="/articles/new">Nuevo</a><br>
+          <a href="#">Resumen</a><br>
+          <a href="/articles">Todos</a><br>
+
+          <!--REFERENTE A WRITERS-->
+          <!-- <h4>WRITERS</h4>
+          <a href="/writers">Todos</a><br>
+          <a href="#">Escribiendo</a><br>
+          <a href="#">Disponibles</a><br> -->
+
+          <!--REFERENTE A SERVERS-->
+          <!-- <h4>SERVERS</h4>
+          <a href="#">Todos</a><br>
+          <a href="#">Disponibles</a><br>
+          <a href="#">Ocupados</a><br> -->
+        </div>
+
+        <!--AQUI VA EL CONTENIDO COMO TAL-->
+        <div class="col-md-10">
+          <%= yield %>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,2 @@
+class ExtrasStatus < ApplicationRecord
+end

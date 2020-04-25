@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  status: MyString
+  comments: MyString
+  last_reset: MyString
+  problems: MyString
+  notes: MyString
+
+two:
+  name: MyString
+  status: MyString
+  comments: MyString
+  last_reset: MyString
+  problems: MyString
+  notes: MyString

@@ -1,0 +1,101 @@
+<%= form_for(@article) do |article_form| %>
+<!--Ahora tenemos otra Fila, la cual vamos a dividir en dos columnas para poner una parte del formulario en la primera columna y la otra parte del formulario en la segunda-->
+<div class="row">
+    <!--Primera columna para la primera parte del formulario-->
+    <div class="col-md-4">
+        <!--Numero de Orden-->
+        <p>
+            <%= article_form.label "No Orden" %><br>
+            <%= article_form.text_field :fiverr_order_id,:value=>flash[:current_fiverr_order_id]%>
+        </p>
+        <p>
+          <%= article_form.label "Fecha Vencimiento" %><br>
+          <%= article_form.date_field(:due_date) %>
+        </p>
+        <!--Tipo de Orden-->
+        <p>
+            <%= article_form.label "Tipo Orden" %><br>
+            <%= article_form.collection_select(:order_type_id, OrderType.all, :id, :name,{:selected=>flash[:current_order_type],:include_blank=>true}) %>
+        </p>
+        <p>
+            <%= article_form.label "URL" %><br>
+            <%= article_form.text_field :url,:value=>flash[:url]%>
+        </p>
+        <p>
+            <%= article_form.label "KW" %><br>
+            <%= article_form.text_field :key_word,:value=>flash[:key_word]%>
+        </p>
+        <!--Escritura Estado-->
+        <p>
+            <%= article_form.label "Estado" %><br>
+            <%= article_form.collection_select(:writingstatus_id, Writingstatus.all, :id, :status,{:selected=>flash[:writingstatus_id]}) %>
+        </p>
+    </div>
+
+    <!--Segunda columna para la segunda parte del formulario-->
+    <div class="col-md-4">
+      <!--Escritor-->
+      <p>
+          <%= article_form.label "Escritor" %><br>
+          <%= article_form.collection_select(:writers_id, Writer.all, :id, :name,{:selected=>flash[:writers_id]}) %>
+      </p>
+      <p>
+          <%= article_form.label "Codigo Orden" %><br>
+          <%= article_form.text_field :writing_code,:value=>flash[:writing_code]%>
+      </p>
+      <!--Pago Estado-->
+      <p>
+          <%= article_form.label "Pago Estado" %><br>
+          <%= article_form.collection_select(:payment_status_id, PaymentStatus.all, :id, :name,{:selected=>flash[:payment_status_id]}) %>
+      </p>
+      <!--Fecha Pagado-->
+      <p>
+        <%= article_form.label "Fecha Pagado" %><br>
+        <%= article_form.date_field(:payment_date) %>
+      </p>
+      <!--Detalles del Pago-->
+      <p>
+          <%= article_form.label "Detalles Pago" %><br>
+          <%= article_form.text_field :payment_details,:value=>flash[:payment_details]%>
+      </p>
+      <!--Una pequeña fila con tres divisiones para 3 campos que no necesitan mucho espacio-->
+      <div class="row">
+        <!--Para #de Articulos-->
+        <div class="col-md-4">
+          <p>
+              <%= article_form.label "#Articulos" %>
+              <%= article_form.number_field(:article_amount, in: 1..20, step: 1)%>
+          </p>
+        </div>
+        <!--Para #de Palabras-->
+        <div class="col-md-4">
+          <%= article_form.label "#Palabras" %>
+          <%= article_form.number_field(:word_count, in: 1..5000, step: 1)%>
+        </div>
+        <!--Para Precio-->
+        <div class="col-md-4">
+          <%= article_form.label "Precio" %>
+          <%= article_form.number_field(:price, in: 1..5000, step: 1)%>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!--En una fila totalmente independiente poner los comentarios para que se
+puedan ver bien sin problemas-->
+<div class="row">
+  <div class="col-md-12 ">
+    <!--Comentarios-->
+      <%= article_form.label "Comentarios" %> <br>
+      <%= article_form.text_area(:comments, size: "100x6")%>
+  </div>
+</div>
+    <%= article_form.submit %>
+    <% end %>
+
+
+<% if flash[:errors] %>
+<% flash[:errors].each do |e| %>
+    <p> <%= e %> </p>
+<% end %>
+<% end %>

@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="col-md-4">
+    <h3>Resumen Traffico Basico</h3>
+    <% @basic_stats.each do |basic_stat| %>
+    <!--En el controlador se hace un agrupamiento por estados de ordenes y despues un
+    conteo de los mismos. Accediendo al [0] de la respuesta obtenemos el order_status_id
+    correspondiente.-->
+    <a href="/fiverr_orders?utf8=✓&order_type%5Border_type_id%5D=<%= @basic_type_id %>&order_status%5Border_status_id%5D=<%= basic_stat[0] %>&server%5Bserver_id%5D=&order_no=&commit=Search"><%= OrderStatus.find(basic_stat[0]).name%>  <%= basic_stat[1]%></a><br>
+    <% end %>
+  </div>
+  <div class="col-md-4">
+    <h3>Resumen Traffico Standard</h3>
+    <% @std_stats.each do |std_stat| %>
+    <!--En el controlador se hace un agrupamiento por estados de ordenes y despues un
+    conteo de los mismos. Accediendo al [0] de la respuesta obtenemos el order_status_id
+    correspondiente.-->
+    <a href="/fiverr_orders?utf8=✓&order_type%5Border_type_id%5D=<%= @std_type_id %>&order_status%5Border_status_id%5D=<%= std_stat[0] %>&server%5Bserver_id%5D=&order_no=&commit=Search"><%= OrderStatus.find(std_stat[0]).name%>  <%= std_stat[1]%></a><br>
+    <% end %>
+  </div>
+  <div class="col-md-4">
+    <h3>Resumen Traffico Premium</h3>
+    <% @prem_stats.each do |prem_stat| %>
+    <!--En el controlador se hace un agrupamiento por estados de ordenes y despues un
+    conteo de los mismos. Accediendo al [0] de la respuesta obtenemos el order_status_id
+    correspondiente.-->
+    <a href="/fiverr_orders?utf8=✓&order_type%5Border_type_id%5D=<%= @prem_type_id %>&order_status%5Border_status_id%5D=<%= prem_stat[0] %>&server%5Bserver_id%5D=&order_no=&commit=Search"><%= OrderStatus.find(prem_stat[0]).name%>  <%= prem_stat[1]%></a><br>
+    <% end %>
+  </div>
+</div>

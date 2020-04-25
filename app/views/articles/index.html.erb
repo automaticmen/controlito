@@ -1,0 +1,15 @@
+<%= simple_form_for :search, url: articles_path , method: "GET", html: { class: 'form-inline' } do |f| %>
+    <%= label_tag("Escritor") %>
+    <%= collection_select(:writer, :writer_id, Writer.all, :id, :name,{:selected => @writer_id_value,:include_blank=>true}) %>
+    <%= label_tag("Estado Escritura") %>
+    <%= collection_select(:writingstatus, :writingstatus_id, Writingstatus.all, :id, :status,{:selected => @writing_status_value,:include_blank=>true}) %>
+    <%= label_tag("Pago Estado") %>
+    <%= collection_select(:payment_status, :payment_status_id, PaymentStatus.all, :id, :name,{:selected => @payment_status_value,:include_blank=>true}) %>
+    <%= f.submit "Filtrar", class: "btn btn-primary" %>
+<% end %>
+<!-- List group -->
+<div class="list-group" id="fiverrOrdersList" role="tablist">
+    <% @articles.each do |article| %>
+        <a class="list-group-item list-group-item-action" data-toggle="list" href="<%= edit_article_path(article.id)%>" role="tab"><%= article.fiverr_order.order_no %></a>
+    <% end %>
+</div>

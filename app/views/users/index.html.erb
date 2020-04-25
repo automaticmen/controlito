@@ -1,0 +1,42 @@
+<% if flash[:errors]%>
+    <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div id="flash_errors" class="col-md-4">
+            <% flash[:errors].each do |e| %>
+                <p class="text-danger"> <%= e %> </p>
+            <% end %>
+        </div>
+        <div class="col-md-4">
+        </div>
+    </div>
+<% end %>
+<!--Creando el layout para acomodar los elemenots de la vista. En este caso solo tendremos para poner el correo de login y password
+por lo tanto voy a hacer para que esto quede en el medio de la pagina. dividire la fila en tres md4 y en el centro es donde voy
+a poner el formularios para loguearse. Recordar que como estoy usando bootstrap por esto es que utilizo estas divisiones para que despues se sepa que 
+hacer con ellas cuando se renderice la vista-->
+<div class="row">
+    <!--Esta division es solo para que el login quede en el centro de la pagina-->
+    <div id="blank_left" class="col-md-4">
+    </div>
+
+    <!--En esta division pondremos lo relacionado con el login-->
+    <div id="login" class="col-md-4">
+        <h1>Controlito Login</h1>
+        <%= form_tag sessions_path do %>
+            <div class="form-group">
+                <%= label_tag :email%><br>
+                <%= email_field_tag :email%>
+            </div>
+            <div class="form-group">
+                <%= label_tag :password%><br>
+                <%= password_field_tag :password%>
+            </div>
+            <%= submit_tag "Sign In" %>
+        <% end %>
+    </div>
+
+    <!--Esta division es solo para que el login quede en el centro de la pagina, ver si es necesaria, ,e parece que no-->
+    <div id="blank_right" class="col-md-4">
+    </div>
+</div>

@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  fiverr_order: one
+  due_date: 2020-04-17 16:29:13
+
+two:
+  fiverr_order: two
+  due_date: 2020-04-17 16:29:13

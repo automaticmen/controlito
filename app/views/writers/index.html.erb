@@ -1,0 +1,6 @@
+<!-- List group -->
+<div class="list-group" id="WritersList" role="tablist">
+    <% @writers.each do |writer| %>
+        <a class="list-group-item list-group-item-action" data-toggle="list" href="<%= edit_writer_path(writer.id)%>" role="tab"><%= writer.name %></a>
+    <% end %>
+</div>

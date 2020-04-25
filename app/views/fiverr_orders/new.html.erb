@@ -1,0 +1,123 @@
+    <%= form_for(@fiverr_order) do |order_form| %>
+    <!--Ahora tenemos otra Fila, la cual vamos a dividir en dos columnas para poner una parte del formulario en la primera columna y la otra parte del formulario en la segunda-->
+    <div class="row">
+        <!--Primera columna para la primera parte del formulario-->
+        <div class="col-md-4">
+            <!--Numero de Orden-->
+            <p>
+                <%= order_form.label :order_no %>
+                <%= order_form.text_field :order_no,:value=>flash[:current_order_no]%>
+            </p>
+            <!--Username-->
+            <p>
+                <%= order_form.label "Username" %>
+                <%= order_form.text_field :username,:value=>flash[:current_username]%>
+            </p>
+            <!--Fecha de vencimiento-->
+            <p>
+                <%= order_form.label "Fecha Vencimento" %>
+                <%= order_form.date_field(:due_date,:value=>flash[:current_due_date]) %>
+            </p>
+            <!--Tipo de Orden-->
+            <p>
+                <%= order_form.label "Tipo Orden" %>
+                <%= order_form.collection_select(:order_type_id, OrderType.all, :id, :name,{:selected=>flash[:current_order_type],:include_blank=>true}) %>
+            </p>
+            <!--Custom offer-->
+            <p>
+                <%= order_form.label "Custom Offer" %>
+                <%= order_form.check_box(:custom_offer) %>
+            </p>
+            <!--Site Audit CheckBox + El estado del Site Audit-->
+            <p>
+                <%= order_form.label "SEO AUdit" %>
+                <%= order_form.check_box(:site_audit) %>
+                <%= order_form.collection_select(:site_audit_status, ExtrasStatus.all, :id, :name) %>
+            </p>
+            <!--Articulos-->
+            <p>
+                <%= order_form.label "Articulos" %>
+                <%= order_form.check_box(:articles) %>
+            </p>
+            <!--Trafico CheckBox + El estado del Trafico-->
+            <p>
+                <%= order_form.label "Trafico" %>
+                <%= order_form.check_box(:traffic) %>
+                <%= order_form.collection_select(:site_traffic_status, ExtrasStatus.all, :id, :name) %>
+            </p>
+            <!--Login Data CheckBox + El estado del Login Data-->
+            <p>
+                <%= order_form.label "Login Data" %>
+                <%= order_form.check_box(:login_data) %>
+                <%= order_form.collection_select(:login_data_status, ExtrasStatus.all, :id, :name) %>
+            </p>
+        </div>
+
+        <!--Segunda columna para la segunda parte del formulario-->
+        <div class="col-md-4">
+            <!--Estado de la Orden-->
+            <p>
+                <%= order_form.label "Orden Estado" %>
+                <%= order_form.collection_select(:order_status_id, OrderStatus.all, :id, :name,include_blank:true) %>
+            </p>
+            <!--Servidor-->
+            <p>
+                <%= order_form.label "Servidor" %>
+                <%= order_form.collection_select(:server_id, Server.all, :id, :name,{:selected => 21}) %>
+            </p>
+            <!--Fecha de Inicio-->
+            <p>
+                <%= order_form.label "Fecha Inicio" %>
+                <%= order_form.date_field(:start_date) %>
+            </p>
+            <!--Rank Tracker Check Box-->
+            <p>
+                <%= order_form.label "Rank Tracker" %>
+                <%= order_form.check_box(:rank_tracker) %>
+            </p>
+            <!--Cometarios sobre la orden-->
+            <p>
+                <%= order_form.label "Comentarios" %>
+                <%= order_form.text_area(:comments,size: "80x6") %>
+            </p>
+            <%= order_form.submit %>
+        </div>
+    </div>
+    <!-- AQUI VA PARA PONER LOS DATOS DE LOS ARTICULOS, LOS MAS IMPORTANTES
+    LOS OTROS PONERLOS EN OTRO LADO -->
+    Articulos:
+    <%= order_form.fields_for :article do |article_form| %>
+    <table>
+      <thead>
+        <tr>
+          <th> Fecha Vencimiento </th>
+          <th> Tipo Orden </th>
+          <th> Escritor </th>
+          <th> Estado Escritura </th>
+          <th> Comentarios </th>
+          <th> URL </th>
+          <th> KW </th>
+          <th> Pago Estado </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><%= article_form.date_field(:due_date,{:style => "width:150px"}) %></td>
+          <td><%= article_form.collection_select(:order_type_id, OrderType.all, :id, :name,{:selected=>flash[:current_order_type],:include_blank=>true},{:style => "width:100px"}) %></td>
+          <td><%= article_form.collection_select(:writers_id, Writer.all, :id, :name,{:selected=>5}) %></td>
+          <td><%= article_form.collection_select(:writingstatus_id, Writingstatus.all, :id, :status,{:selected=>flash[:writingstatus_id]},{:style => "width:120px"}) %></td>
+          <td><%= article_form.text_field :comments,:value=>flash[:comments]%></td>
+          <td><%= article_form.text_field :url %></td>
+          <td><%= article_form.text_field :key_word,:value=>flash[:key_word]%></td>
+          <td><%= article_form.collection_select(:payment_status_id, PaymentStatus.all, :id, :name,{:selected=>flash[:payment_status_id]}) %></td>
+        </tr>
+      </tbody>
+    </table>
+      <% end %>
+        <% end %>
+
+<% if flash[:errors] %>
+    <% flash[:errors].each do |e| %>
+        <p> <%= e %> </p>
+    <% end %>
+<% end %>

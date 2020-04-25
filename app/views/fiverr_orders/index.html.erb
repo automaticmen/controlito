@@ -1,0 +1,21 @@
+<%= simple_form_for :search, url: fiverr_orders_path , method: "GET", html: { class: 'form-inline' } do |f| %>
+    <%= label_tag("Tipo Orden") %>
+    <%= collection_select(:order_type, :order_type_id, OrderType.all, :id, :name,{:selected => @order_type_value,:include_blank=>true}) %>
+    <%= label_tag("Orden Estado") %>
+    <%= collection_select(:order_status, :order_status_id, OrderStatus.all, :id, :name,{:selected => @order_status_value,:include_blank=>true}) %>
+    <%= label_tag("Servidor") %>
+    <%= collection_select(:server, :server_id, Server.all, :id, :name,{:selected => @server_value,:include_blank=>true}) %>
+    <%= label_tag("Trafico") %>
+    <%= collection_select(:site_traffic_status, :site_traffic_status_id, ExtrasStatus.all, :id, :name,{:selected => @traffic_value,:include_blank=>true}) %>
+    <%= label_tag("Site Audit") %>
+    <%= collection_select(:site_audit_status, :site_audit_status_id, ExtrasStatus.all, :id, :name,{:selected => @site_audit_value,:include_blank=>true}) %>
+    <%= label_tag("No. Orden") %>
+    <%= text_field_tag(:order_no) %>
+    <%= f.submit "Search", class: "btn btn-primary" %>
+<% end %>
+<!-- List group -->
+<div class="list-group" id="fiverrOrdersList" role="tablist">
+    <% @fiverr_orders.each do |order| %>
+        <a class="list-group-item list-group-item-action" data-toggle="list" href="<%= edit_fiverr_order_path(order.id)%>" role="tab"><%= order.order_no %></a>
+    <% end %>
+</div>

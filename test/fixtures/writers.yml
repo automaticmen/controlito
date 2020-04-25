@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  comments: MyString
+  work_details: MyString
+  priority: 1
+
+two:
+  name: MyString
+  comments: MyString
+  work_details: MyString
+  priority: 1
