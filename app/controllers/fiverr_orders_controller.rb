@@ -4,6 +4,12 @@ class FiverrOrdersController < ApplicationController
     #el cual se encarga de verificar si estamos en sesion o no.
     before_action :require_login
     def index
+      #esto para definir el espacio se que esto se hace mejor con CSS pero no se como ver despues
+        @left_padding = "2px"
+        @right_padding = "2px"
+        @top_padding = "0px"
+        @bottom_padding = "0px"
+
         @fiverr_orders = FiverrOrder.all
 
         @search_order_type = params["order_type"]

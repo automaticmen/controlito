@@ -16,20 +16,24 @@
 <!-- List group -->
 <div class="list-group" id="fiverrOrdersList" role="tablist">
     <% @fiverr_orders.each do |order| %>
-    <!--Crear una fila para poner la info referente a la orden-->
-    <div class="row">
-      <!--Va a tener 2 columnas en la primera estara info de la orden y si damos click podemos editar la orden en la bd-->
-      <div class="col-md-10">
-        <a class="list-group-item list-group-item-action" data-toggle="list" href="<%= edit_fiverr_order_path(order.id)%>" role="tab"><%= order.order_no %> | <%=order.due_date.strftime("%d/%m/%Y")%></a>
+      <!--Crear una fila para poner la info referente a la orden-->
+      <div class="row">
+        <!-- En la segunda columna pondre links para ir a fiverr o otros lugares que se me ocurra -->
+        <div class="col-md-1" style="width:25px">
+          <a href="https://www.fiverr.com/users/blboss/manage_orders/<%=order.order_no%>">
+            <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+          </a>
+        </div>
+        <!--Va a tener 2 columnas en la primera estara info de la orden y si damos click podemos editar la orden en la bd-->
+        <div class="col-md-10" style="width:1000px">
+          <a class="list-group-item list-group-item-action" data-toggle="list" href="<%= edit_fiverr_order_path(order.id)%>" role="tab" style="padding-top: <%=@top_padding%>;padding-bottom: <%=@bottom_padding%>;padding-right: <%=@right_padding%>;padding-left: <%=@left_padding%>;"><%= order.order_no %> | <%=order.due_date.strftime("%d/%m/%Y")%></a>
+        </div>
+        <!-- En la tercera columna pondre links para ir a conversaciones -->
+        <div class="col-md-1" style="width:25px">
+          <a href="https://www.fiverr.com/inbox/<%=order.username%>">
+            <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+          </a>
+        </div>
       </div>
-      <!-- En la segunda columna pondre links para ir a fiverr o otros lugares que se me ocurra -->
-      <div class="col-md-1">
-        <a href="https://www.fiverr.com/users/blboss/manage_orders/<%=order.order_no%>">Fiverr</a>
-      </div>
-      <!-- En la tercera columna pondre links para ir a conversaciones -->
-      <div class="col-md-1">
-        <a href="https://www.fiverr.com/inbox/<%=order.username%>">Conver</a>
-      </div>
-    </div>
     <% end %>
 </div>
