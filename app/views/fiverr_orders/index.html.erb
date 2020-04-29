@@ -16,6 +16,6 @@
 <!-- List group -->
 <div class="list-group" id="fiverrOrdersList" role="tablist">
     <% @fiverr_orders.each do |order| %>
-        <a class="list-group-item list-group-item-action" data-toggle="list" href="<%= edit_fiverr_order_path(order.id)%>" role="tab"><%= order.order_no %></a>
+        <a class="list-group-item list-group-item-action" data-toggle="list" href="<%= edit_fiverr_order_path(order.id)%>" role="tab"><%= order.order_no %> <%order.due_date%></a>
     <% end %>
 </div>
