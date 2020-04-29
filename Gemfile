@@ -64,4 +64,4 @@ gem 'simple_form'
 #deployment entonces primero has el bundle install sin esta gema. Luego Cuando
 #Trates de ahcer el rake db:migrate para crear las tablas etc pues te dara el
 #berro. Entonces ahi coges la descomentas y vuelves a dar bundle install.
-#gem 'bigdecimal'
+gem 'bigdecimal'
