@@ -11,8 +11,7 @@ class FiverrOrdersController < ApplicationController
         @bottom_padding = "0px"
 
         @fiverr_orders = FiverrOrder.all
-        @order_types_list = OrderType.all
-        @order_statuses_list = OrderStatus.all
+        #smallchange
 
         @search_order_type = params["order_type"]
         if @search_order_type.present?
