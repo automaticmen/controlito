@@ -14,54 +14,66 @@ class FiverrOrdersController < ApplicationController
         @order_types_list = OrderType.all
         @order_statuses_list = OrderStatus.all
 
+        #Primero necesito tener un analisis de todos los parametros para saber si estan tratando de filtrar algo
+        #o solamente es el index sin ningun filtro aplicado. Si hay filtro aplicado pues entonces ejecutar el filtro
+        #tal cual. Si no hay filtro aplicado entonces mostrar solo ordenes que no esten entregadas o canceladas.
         @search_order_type = params["order_type"]
-        if @search_order_type.present?
-            @order_type_value = @search_order_type["order_type_id"]
-            unless  @order_type_value.length==0
-                @fiverr_orders = @fiverr_orders.where(order_type_id: @order_type_value)
-            end
-        end
-
         @search_order_status = params["order_status"]
-        if @search_order_status.present?
-            @order_status_value = @search_order_status["order_status_id"]
-            unless @order_status_value.length==0
-                @fiverr_orders = @fiverr_orders.where(order_status_id: @order_status_value)
-            end
-        end
-
         @search_server = params["server"]
-        if @search_server.present?
-            @server_value = @search_server["server_id"]
-            unless @server_value.length==0
-                @fiverr_orders = @fiverr_orders.where(server_id: @server_value)
-            end
-        end
-
         @search_traffic = params["site_traffic_status"]
-        if @search_traffic.present?
-            @traffic_value = @search_traffic["site_traffic_status_id"]
-            unless @traffic_value.length==0
-                @fiverr_orders = @fiverr_orders.where(traffic:true)
-                @fiverr_orders = @fiverr_orders.where(site_traffic_status: @traffic_value)
-            end
-        end
-
         @search_site_audit = params["site_audit_status"]
-        if @search_site_audit.present?
-            @site_audit_value = @search_site_audit["site_audit_status_id"]
-            unless @site_audit_value.length==0
-                @fiverr_orders = @fiverr_orders.where(site_audit:true)
-                @fiverr_orders = @fiverr_orders.where(site_audit_status: @site_audit_value)
-            end
+        @search_order_no = params["order_no"]
+        #Si al menos hay presencia de uno de los filtros entonces a filtrar.
+        if  @search_order_type.present? || @search_order_status.present? || @search_server.present? || @search_traffic.present? || @search_site_audit.present? || @search_order_no.present?
+
+          if @search_order_type.present?
+              @order_type_value = @search_order_type["order_type_id"]
+              unless  @order_type_value.length==0
+                  @fiverr_orders = @fiverr_orders.where(order_type_id: @order_type_value)
+              end
+          end
+
+          if @search_order_status.present?
+              @order_status_value = @search_order_status["order_status_id"]
+              unless @order_status_value.length==0
+                  @fiverr_orders = @fiverr_orders.where(order_status_id: @order_status_value)
+              end
+          end
+
+          if @search_server.present?
+              @server_value = @search_server["server_id"]
+              unless @server_value.length==0
+                  @fiverr_orders = @fiverr_orders.where(server_id: @server_value)
+              end
+          end
+
+          if @search_traffic.present?
+              @traffic_value = @search_traffic["site_traffic_status_id"]
+              unless @traffic_value.length==0
+                  @fiverr_orders = @fiverr_orders.where(traffic:true)
+                  @fiverr_orders = @fiverr_orders.where(site_traffic_status: @traffic_value)
+              end
+          end
+
+          if @search_site_audit.present?
+              @site_audit_value = @search_site_audit["site_audit_status_id"]
+              unless @site_audit_value.length==0
+                  @fiverr_orders = @fiverr_orders.where(site_audit:true)
+                  @fiverr_orders = @fiverr_orders.where(site_audit_status: @site_audit_value)
+              end
+          end
+
+          if @search_order_no.present?
+              unless @search_order_no.length==0
+                  @fiverr_orders = @fiverr_orders.where(order_no: @search_order_no)
+              end
+          end
+        #No hay filtro de ningun tipo entonces vamos a lo que vamos a mostrar solo ordenes no entregadas ni canceladas
+        else
+          @fiverr_orders = @fiverr_orders.where.not(order_status_id:10)#no canceladas
+          @fiverr_orders = @fiverr_orders.where.not(order_status_id:6)#no entregadas
         end
 
-        @search_order_no = params["order_no"]
-        if @search_order_no.present?
-            unless @search_order_no.length==0
-                @fiverr_orders = @fiverr_orders.where(order_no: @search_order_no)
-            end
-        end
 
         @fiverr_orders = @fiverr_orders.order("due_date ASC")
     end
