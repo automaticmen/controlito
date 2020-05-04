@@ -1,6 +1,7 @@
 class ArticlesController < ApplicationController
   def index
     @articles = Article.all
+    @order_types = OrderType.all
     @search_writer = params["writer"]
     if @search_writer.present?
         @writer_id_value = @search_writer["writer_id"]
