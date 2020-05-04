@@ -66,6 +66,9 @@ class FiverrOrdersController < ApplicationController
           if @search_order_no.present?
               unless @search_order_no.length==0
                   @fiverr_orders = @fiverr_orders.where(order_no: @search_order_no)
+                  if @fiverr_orders.count==1
+                    redirect_to "/fiverr_orders/#{@fiverr_orders.first.id}/edit"
+                  end
               end
           end
         #No hay filtro de ningun tipo entonces vamos a lo que vamos a mostrar solo ordenes no entregadas ni canceladas
