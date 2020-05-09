@@ -23,6 +23,7 @@ class FiverrOrdersController < ApplicationController
         @search_traffic = params["site_traffic_status"]
         @search_site_audit = params["site_audit_status"]
         @search_order_no = params["order_no"]
+        @search_rank_tracker = params["rank_tracker"]
         #Si al menos hay presencia de uno de los filtros entonces a filtrar.
         if  @search_order_type.present? || @search_order_status.present? || @search_server.present? || @search_traffic.present? || @search_site_audit.present? || @search_order_no.present?
 
@@ -70,6 +71,10 @@ class FiverrOrdersController < ApplicationController
                     redirect_to "/fiverr_orders/#{@fiverr_orders.first.id}/edit"
                   end
               end
+          end
+          if @search_rank_tracker.present?
+            @rank_tracker_value = params[:rank_tracker] == "1" ? true : false
+              @fiverr_orders = @fiverr_orders.where(rank_tracker: @rank_tracker_value)
           end
         #No hay filtro de ningun tipo entonces vamos a lo que vamos a mostrar solo ordenes no entregadas ni canceladas
         else

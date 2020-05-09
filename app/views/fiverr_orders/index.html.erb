@@ -9,6 +9,8 @@
     <%= collection_select(:site_traffic_status, :site_traffic_status_id, ExtrasStatus.all, :id, :name,{:selected => @traffic_value,:include_blank=>true}) %>
     <%= label_tag("Site Audit") %>
     <%= collection_select(:site_audit_status, :site_audit_status_id, ExtrasStatus.all, :id, :name,{:selected => @site_audit_value,:include_blank=>true}) %>
+    <%= label_tag("RankTracker") %>
+    <%= select_tag(:rank_tracker, raw('<option value="0">No</option><option value="1">Si</option>')) %>
     <%= label_tag("No. Orden") %>
     <%= text_field_tag(:order_no) %>
     <%= f.submit "Search", class: "btn btn-primary" %>
