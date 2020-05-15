@@ -7,6 +7,7 @@
     <%= collection_select(:payment_status, :payment_status_id, PaymentStatus.all, :id, :name,{:selected => @payment_status_value,:include_blank=>true}) %>
     <%= f.submit "Filtrar", class: "btn btn-primary" %>
 <% end %>
+Resultados: <%=@filter_count%>
 <!-- List group -->
 <div class="list-group" id="fiverrOrdersList" role="tablist">
     <% @articles.each do |article| %>

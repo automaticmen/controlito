@@ -26,6 +26,7 @@ class ArticlesController < ApplicationController
         end
     end
     @articles = @articles.order("due_date ASC")
+    @filter_count = @articles.count
   end
   def new
     @article = Article.new
