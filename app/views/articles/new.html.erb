@@ -1,3 +1,6 @@
+<% if flash[:errors] %>
+  <p>No se ha podido crear el articulo. <a href="#error_details">Revisar errores</a></p>
+<% end %>
 <%= form_for(@article) do |article_form| %>
 <!--Ahora tenemos otra Fila, la cual vamos a dividir en dos columnas para poner una parte del formulario en la primera columna y la otra parte del formulario en la segunda-->
 <div class="row">
@@ -94,6 +97,7 @@ puedan ver bien sin problemas-->
     <% end %>
 
 
+<p id="error_details"></p>
 <% if flash[:errors] %>
 <% flash[:errors].each do |e| %>
     <p> <%= e %> </p>

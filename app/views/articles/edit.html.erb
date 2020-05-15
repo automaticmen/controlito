@@ -1,3 +1,6 @@
+<% if flash[:errors] %>
+  <p>No se ha podido editar el articulo. <a href="#error_details">Revisar errores</a></p>
+<% end %>
 <!--Esta fila es para poner botones de acceso directo a funcionalidades que pueden ser utiles-->
 <div class="row">
   <a class="btn btn-primary" href="https://www.fiverr.com/users/blboss/manage_orders/<%=@article.fiverr_order.order_no%>" target="_blank" role="button">Ir A Fiverr</a>
@@ -99,7 +102,7 @@ puedan ver bien sin problemas-->
     <%= article_form.submit %>
     <% end %>
 
-
+<p id="error_details"></p>
 <% if flash[:errors] %>
 <% flash[:errors].each do |e| %>
     <p> <%= e %> </p>
