@@ -1,3 +1,9 @@
+<!--Esta fila es para poner botones de acceso directo a funcionalidades que pueden ser utiles-->
+<div class="row">
+  <a class="btn btn-primary" href="https://www.fiverr.com/users/blboss/manage_orders/<%=@article.fiverr_order.order_no%>" target="_blank" role="button">Ir A Fiverr</a>
+  <a class="btn btn-primary" href="<%= edit_fiverr_order_path(@article.fiverr_order_id)%>" target="_blank" role="button">Ir A Orden</a>
+  <a class="btn btn-primary" href="<%= @article.payment_details%>" target="_blank" role="button">Workstream</a>
+</div>
 <%= form_for(@article) do |article_form| %>
 <!--Ahora tenemos otra Fila, la cual vamos a dividir en dos columnas para poner una parte del formulario en la primera columna y la otra parte del formulario en la segunda-->
 <div class="row">
