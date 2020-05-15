@@ -25,6 +25,15 @@ class ArticlesController < ApplicationController
             @articles = @articles.where(payment_status_id: @payment_status_value)
         end
     end
+
+    @search_order_no = params["order_no"]
+    if @search_order_no.present?
+        @found_order = FiverrOrder.find_by(order_no: @search_order_no)#primero ver si encuentra o no encuentra la orden porque suponiendo que no exista pues no puede explotar la conversaciones
+        if @found_order#solo si se ha encontrado la orden entonces procedemos
+          @articles = @articles.where(fiverr_order_id: @found_order.id)
+        end
+    end
+
     @articles = @articles.order("due_date ASC")
     @filter_count = @articles.count
   end

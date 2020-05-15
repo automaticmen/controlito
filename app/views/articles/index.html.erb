@@ -5,6 +5,8 @@
     <%= collection_select(:writingstatus, :writingstatus_id, Writingstatus.all, :id, :status,{:selected => @writing_status_value,:include_blank=>true}) %>
     <%= label_tag("Pago Estado") %>
     <%= collection_select(:payment_status, :payment_status_id, PaymentStatus.all, :id, :name,{:selected => @payment_status_value,:include_blank=>true}) %>
+    <%= label_tag("No. Orden") %>
+    <%= text_field_tag(:order_no) %>
     <%= f.submit "Filtrar", class: "btn btn-primary" %>
 <% end %>
 Resultados: <%=@filter_count%>
