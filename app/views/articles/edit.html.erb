@@ -15,20 +15,20 @@
         <!--Numero de Orden-->
         <p>
             <%= article_form.label "Order No" %><br>
-            <%= article_form.text_field :fiverr_order_id,:value=>@article.fiverr_order.order_no%>
+            <%= article_form.text_field :fiverr_order_id,:value=>@article.fiverr_order.order_no,required:true%>
         </p>
         <p>
           <%= article_form.label "Fecha Vencimiento" %><br>
-          <%= article_form.date_field(:due_date) %>
+          <%= article_form.date_field(:due_date,required:true) %>
         </p>
         <!--Tipo de Orden-->
         <p>
             <%= article_form.label "Tipo Orden" %><br>
-            <%= article_form.collection_select(:order_type_id, OrderType.all, :id, :name,{:include_blank=>true}) %>
+            <%= article_form.collection_select(:order_type_id, OrderType.all, :id, :name,{:include_blank=>true},required:true) %>
         </p>
         <p>
             <%= article_form.label "URL" %><br>
-            <%= article_form.text_field :url%>
+            <%= article_form.text_field :url,required:true%>
         </p>
         <p>
             <%= article_form.label "KW" %><br>
@@ -37,7 +37,7 @@
         <!--Escritura Estado-->
         <p>
             <%= article_form.label "Estado" %><br>
-            <%= article_form.collection_select(:writingstatus_id, Writingstatus.all, :id, :status) %>
+            <%= article_form.collection_select(:writingstatus_id, Writingstatus.all, :id, :status,required:true) %>
         </p>
     </div>
 

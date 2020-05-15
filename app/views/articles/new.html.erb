@@ -9,20 +9,20 @@
         <!--Numero de Orden-->
         <p>
             <%= article_form.label "No Orden" %><br>
-            <%= article_form.text_field :fiverr_order_id,:value=>flash[:current_fiverr_order_id]%>
+            <%= article_form.text_field :fiverr_order_id,:value=>flash[:current_fiverr_order_id],required:true%>
         </p>
         <p>
           <%= article_form.label "Fecha Vencimiento" %><br>
-          <%= article_form.date_field(:due_date) %>
+          <%= article_form.date_field(:due_date,required:true) %>
         </p>
         <!--Tipo de Orden-->
         <p>
             <%= article_form.label "Tipo Orden" %><br>
-            <%= article_form.collection_select(:order_type_id, OrderType.all, :id, :name,{:selected=>flash[:current_order_type],:include_blank=>true}) %>
+            <%= article_form.collection_select(:order_type_id, OrderType.all, :id, :name,{:selected=>flash[:current_order_type],:include_blank=>true},required:true) %>
         </p>
         <p>
             <%= article_form.label "URL" %><br>
-            <%= article_form.text_field :url,:value=>flash[:url]%>
+            <%= article_form.text_field :url,:value=>flash[:url],required:true%>
         </p>
         <p>
             <%= article_form.label "KW" %><br>
@@ -31,7 +31,7 @@
         <!--Escritura Estado-->
         <p>
             <%= article_form.label "Estado" %><br>
-            <%= article_form.collection_select(:writingstatus_id, Writingstatus.all, :id, :status,{:selected=>flash[:writingstatus_id]}) %>
+            <%= article_form.collection_select(:writingstatus_id, Writingstatus.all, :id, :status,{:selected=>flash[:writingstatus_id]},required:true) %>
         </p>
     </div>
 
