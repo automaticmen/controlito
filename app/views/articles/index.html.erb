@@ -10,6 +10,6 @@
 <!-- List group -->
 <div class="list-group" id="fiverrOrdersList" role="tablist">
     <% @articles.each do |article| %>
-        <a class="list-group-item list-group-item-action" data-toggle="list" href="<%= edit_article_path(article.id)%>" role="tab"><%= article.fiverr_order.order_no %> | <%= article.due_date.strftime("%d/%m/%Y") %> | <%= @order_types.find(article.order_type_id).name %> | URL: <%=article.url%> | KW: <%=article.key_word%></a>
+        <a class="list-group-item list-group-item-action" data-toggle="list" href="<%= edit_article_path(article.id)%>" role="tab"><%= article.fiverr_order.order_no %> | <%= article.due_date.strftime("%d/%m/%Y") %> | <%= @order_types.find(article.order_type_id).name %> | URL: <%=article.url%> | KW: <%=article.key_word%>| COMMENTS: <%=article.comments%></a>
     <% end %>
 </div>
