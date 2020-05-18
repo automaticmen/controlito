@@ -29,6 +29,12 @@ class FiverrOrdersController < ApplicationController
 
           if @search_order_type.present?
               @order_type_value = @search_order_type["order_type_id"]
+              #Aqui estoy creando una variable del estado del filtro para poder usarla en ontra sesion. El objetivo de esto es que cuando este editando una orden y le de
+              #update entonces regrese a la pagina de donde vino y aplique los mismos filtros que tenia ella misma. Entonces para esto tengo que compartir su valor en una
+              #sesion para que despues cuando vaya a la parte de update del cntrolador poder utilizarla y pasarla como parametro en la url para que este el mismo filtro
+              # de donde salio activo.
+              @order_type_filter_status = @order_type_value#guardando el valor del filtro
+              session[:passed_order_type_filter_status] = @order_type_filter_status#almacenando el valor para que este disponible en la session
               unless  @order_type_value.length==0
                   @fiverr_orders = @fiverr_orders.where(order_type_id: @order_type_value)
               end
@@ -36,6 +42,12 @@ class FiverrOrdersController < ApplicationController
 
           if @search_order_status.present?
               @order_status_value = @search_order_status["order_status_id"]
+              #Aqui estoy creando una variable del estado del filtro para poder usarla en ontra sesion. El objetivo de esto es que cuando este editando una orden y le de
+              #update entonces regrese a la pagina de donde vino y aplique los mismos filtros que tenia ella misma. Entonces para esto tengo que compartir su valor en una
+              #sesion para que despues cuando vaya a la parte de update del cntrolador poder utilizarla y pasarla como parametro en la url para que este el mismo filtro
+              # de donde salio activo.
+              @order_status_filter_status = @order_status_value#guardando el valor del filtro
+              session[:passed_order_status_filter_status] = @order_status_filter_status#almacenando el valor para que este disponible en la session
               unless @order_status_value.length==0
                   @fiverr_orders = @fiverr_orders.where(order_status_id: @order_status_value)
               end
@@ -43,6 +55,12 @@ class FiverrOrdersController < ApplicationController
 
           if @search_server.present?
               @server_value = @search_server["server_id"]
+              #Aqui estoy creando una variable del estado del filtro para poder usarla en ontra sesion. El objetivo de esto es que cuando este editando una orden y le de
+              #update entonces regrese a la pagina de donde vino y aplique los mismos filtros que tenia ella misma. Entonces para esto tengo que compartir su valor en una
+              #sesion para que despues cuando vaya a la parte de update del cntrolador poder utilizarla y pasarla como parametro en la url para que este el mismo filtro
+              # de donde salio activo.
+              @server_filter_status = @server_value#guardando el valor del filtro
+              session[:passed_server_filter_status] = @server_filter_status#almacenando el valor para que este disponible en la session
               unless @server_value.length==0
                   @fiverr_orders = @fiverr_orders.where(server_id: @server_value)
               end
@@ -50,6 +68,12 @@ class FiverrOrdersController < ApplicationController
 
           if @search_traffic.present?
               @traffic_value = @search_traffic["site_traffic_status_id"]
+              #Aqui estoy creando una variable del estado del filtro para poder usarla en ontra sesion. El objetivo de esto es que cuando este editando una orden y le de
+              #update entonces regrese a la pagina de donde vino y aplique los mismos filtros que tenia ella misma. Entonces para esto tengo que compartir su valor en una
+              #sesion para que despues cuando vaya a la parte de update del cntrolador poder utilizarla y pasarla como parametro en la url para que este el mismo filtro
+              # de donde salio activo.
+              @traffic_filter_status = @traffic_value#guardando el valor del filtro
+              session[:passed_traffic_filter_status] = @traffic_filter_status#almacenando el valor para que este disponible en la session
               unless @traffic_value.length==0
                   @fiverr_orders = @fiverr_orders.where(traffic:true)
                   @fiverr_orders = @fiverr_orders.where(site_traffic_status: @traffic_value)
@@ -58,6 +82,12 @@ class FiverrOrdersController < ApplicationController
 
           if @search_site_audit.present?
               @site_audit_value = @search_site_audit["site_audit_status_id"]
+              #Aqui estoy creando una variable del estado del filtro para poder usarla en ontra sesion. El objetivo de esto es que cuando este editando una orden y le de
+              #update entonces regrese a la pagina de donde vino y aplique los mismos filtros que tenia ella misma. Entonces para esto tengo que compartir su valor en una
+              #sesion para que despues cuando vaya a la parte de update del cntrolador poder utilizarla y pasarla como parametro en la url para que este el mismo filtro
+              # de donde salio activo.
+              @site_audit_filter_status = @site_audit_value#guardando el valor del filtro
+              session[:passed_site_audit_filter_status] = @site_audit_filter_status#almacenando el valor para que este disponible en la session
               unless @site_audit_value.length==0
                   @fiverr_orders = @fiverr_orders.where(site_audit:true)
                   @fiverr_orders = @fiverr_orders.where(site_audit_status: @site_audit_value)
@@ -74,6 +104,12 @@ class FiverrOrdersController < ApplicationController
           end
           if @search_rank_tracker.present?
             @rank_tracker_value = params[:rank_tracker] == "1" ? true : false
+            #Aqui estoy creando una variable del estado del filtro para poder usarla en ontra sesion. El objetivo de esto es que cuando este editando una orden y le de
+            #update entonces regrese a la pagina de donde vino y aplique los mismos filtros que tenia ella misma. Entonces para esto tengo que compartir su valor en una
+            #sesion para que despues cuando vaya a la parte de update del cntrolador poder utilizarla y pasarla como parametro en la url para que este el mismo filtro
+            # de donde salio activo.
+            @rank_tracker_filter_status = params[:rank_tracker]#guardando el valor del filtro
+            session[:passed_rank_tracker_filter_status] = @rank_tracker_filter_status#almacenando el valor para que este disponible en la session
               @fiverr_orders = @fiverr_orders.where(rank_tracker: @rank_tracker_value)
           end
         #No hay filtro de ningun tipo entonces vamos a lo que vamos a mostrar solo ordenes no entregadas ni canceladas
@@ -117,12 +153,18 @@ class FiverrOrdersController < ApplicationController
     end
     #Esta accion no se espera que muestre ninguna vista ni nada por el estilo. Es solo para actualizar el jugador.
     def update
+        @order_type_filter_status = session[:passed_order_type_filter_status]
+        @server_filter_status = session[:passed_server_filter_status]#aqui estoy leyendo el valor pasado en la sesion para usarlo y general la url con filtro
+        @order_status_filter_status = session[:passed_order_status_filter_status]#aqui estoy leyendo el valor pasado en la sesion para usarlo y general la url con filtro
+        @traffic_filter_status = session[:passed_traffic_filter_status]#aqui estoy leyendo el valor pasado en la sesion para usarlo y general la url con filtro
+        @site_audit_filter_status = session[:passed_site_audit_filter_status]
+        @rank_tracker_filter_status = session[:passed_rank_tracker_filter_status]
         #Primero creamos un jugador para operar con el. El parametro :id es un contenedor que es pasado a traves de la ruta
         #para que pomdamos saber de jugador estamos hablando. por eso podemos hacer find(params[:id])
         fiverr_order = FiverrOrder.find(params[:id])
         #Luego si se puede actualizar el el jugador? y como datos llamamos al metodo player_params que se encarga de validar los datos necesarios
         if fiverr_order.update(fiverr_order_params)
-            redirect_to "/fiverr_orders"
+            redirect_to "/fiverr_orders?utf8=✓&order_type[order_type_id]=#{@order_type_filter_status}&order_status[order_status_id]=#{@order_status_filter_status}&server[server_id]=#{@server_filter_status}&site_traffic_status[site_traffic_status_id]=#{@traffic_filter_status}&site_audit_status[site_audit_status_id]=#{@site_audit_filter_status}&rank_tracker=#{@rank_tracker_filter_status}&order_no=}&commit=Search",turbolinks: false
         else
             flash[:errors] = fiverr_order.errors.full_messages
             redirect_to "/fiverr_orders/#{fiverr_order.id}/edit"
