@@ -25,5 +25,6 @@ developer@gmail.com
 
 
 COMANDOS UTILES
+git pull git@github.com:automaticmen/controlito.git para bajar las cosas directamente de githug para controlito
 RAILS_ENV=production rails c Para acceder a IRB y hacer cosas desde la consola
 Hirb.enable Hirb es para que las consultas y tablas SQWL se vean mas bonitas en la consola
