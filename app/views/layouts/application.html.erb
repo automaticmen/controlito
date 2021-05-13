@@ -50,6 +50,14 @@
           <a href="#">Resumen</a><br>
           <a href="/articles">Todos</a><br>
 
+          <hr>
+
+          <%= simple_form_for :search, url: fiverr_orders_path , method: "GET", html: { class: 'form-inline' } do |f| %>
+              <%= label_tag("No. Orden") %>
+              <%= text_field_tag(:order_no) %>
+              <%= f.submit "Search", class: "btn btn-primary" %>
+          <% end %>
+
           <!--REFERENTE A WRITERS-->
           <!-- <h4>WRITERS</h4>
           <a href="/writers">Todos</a><br>
