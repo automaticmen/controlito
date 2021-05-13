@@ -90,7 +90,8 @@
             <%= order_form.label "Comentarios" %>
             <%= order_form.text_area(:comments,size: "80x6") %>
         </p>
-        <%= order_form.submit %>
+        <%= order_form.submit FiverrOrdersController::UPDATE_ACTIONS[:UPDATE_AND_STAY] %>
+        <%= order_form.submit FiverrOrdersController::UPDATE_ACTIONS[:UPDATE_AND_GOT_TO_ORDER_LIST] %>
     </div>
 </div>
     Articulos:

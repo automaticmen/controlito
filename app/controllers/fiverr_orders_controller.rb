@@ -3,6 +3,16 @@ class FiverrOrdersController < ApplicationController
     #especifica. En este caso :require_loguin . Este es un metodo implementado por nosotros en application controller
     #el cual se encarga de verificar si estamos en sesion o no.
     before_action :require_login
+
+    #Cuando actualziamos la informacion de una orden queremos que hayan dos opciones. Una de ellas es que se actualice
+    #la INFO y se quede en el mismo formulario por si queiremos seguir haciendo cosas. La otra opcion es redireccionar
+    #a la lista de ordenes con los mismos filtros aplciados previamente. Para ello estamos creando estas dos posibiliddes.
+    #De ser necesarias mas pues se peuden añadir aqui. Entonces en el formulario se van a crear de moemnto dos SUBMIT
+    #Buttons.
+    UPDATE_ACTIONS = {
+    :UPDATE_AND_STAY => "UPDATE",
+    :UPDATE_AND_GOT_TO_ORDER_LIST => "UPDATE AND LEAVE"
+  }
     def index
       #esto para definir el espacio se que esto se hace mejor con CSS pero no se como ver despues
         @left_padding = "2px"
@@ -164,7 +174,14 @@ class FiverrOrdersController < ApplicationController
         fiverr_order = FiverrOrder.find(params[:id])
         #Luego si se puede actualizar el el jugador? y como datos llamamos al metodo player_params que se encarga de validar los datos necesarios
         if fiverr_order.update(fiverr_order_params)
+          #En dependencia del valor que tenga este parametro entonces se va de la orden para la lista o se queda en la misma despues de actualizar
+          if params[:commit] == UPDATE_ACTIONS[:UPDATE_AND_STAY]
+            redirect_to "/fiverr_orders/#{fiverr_order.id}/edit"
+          elsif params[:commit] == UPDATE_ACTIONS[:UPDATE_AND_GOT_TO_ORDER_LIST]
             redirect_to "/fiverr_orders?utf8=✓&order_type[order_type_id]=#{@order_type_filter_status}&order_status[order_status_id]=#{@order_status_filter_status}&server[server_id]=#{@server_filter_status}&site_traffic_status[site_traffic_status_id]=#{@traffic_filter_status}&site_audit_status[site_audit_status_id]=#{@site_audit_filter_status}&rank_tracker=#{@rank_tracker_filter_status}&order_no=}&commit=Search",turbolinks: false
+          else
+            flash[:error] = "NON VALID UPDATE ACTION"
+          end
         else
             flash[:errors] = fiverr_order.errors.full_messages
             redirect_to "/fiverr_orders/#{fiverr_order.id}/edit"
