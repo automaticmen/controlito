@@ -46,11 +46,10 @@ class FiverrOrdersController < ApplicationController
       else
         @fiverr_orders = @fiverr_orders.where.not(order_status_id:10)#no canceladas
         @fiverr_orders = @fiverr_orders.where.not(order_status_id:6)#no entregadas
+        #Organizando el resultado de la busqueda de orden mas prioritaria a menos prioritaria guiandonos por la fecha
+        #de vencimiento.
+        @fiverr_orders = @fiverr_orders.order("due_date ASC")
       end
-
-      #Organizando el resultado de la busqueda de orden mas prioritaria a menos prioritaria guiandonos por la fecha
-      #de vencimiento.
-      @fiverr_orders = @fiverr_orders.order("due_date ASC")
     end
     def new
         @fiverr_order = FiverrOrder.new
@@ -265,6 +264,10 @@ class FiverrOrdersController < ApplicationController
             @fiverr_orders = @fiverr_orders.where(rank_tracker: @rank_tracker_value)
         end
       end
+
+      #Organizando el resultado de la busqueda de orden mas prioritaria a menos prioritaria guiandonos por la fecha
+      #de vencimiento.
+      @fiverr_orders = @fiverr_orders.order("due_date ASC")
     end
 
     #Este metodo lo voy a utilizar para devolver el resultado de una busqueda por los campos de la base de datos que
