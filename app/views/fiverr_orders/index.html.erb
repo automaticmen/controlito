@@ -13,7 +13,7 @@
     <%= select_tag(:rank_tracker, options_for_select({ "No" => 0, "Si" => 1},@rank_tracker_filter_status)) %>
     <%= label_tag("No. Orden") %>
     <%= text_field_tag(:order_no) %>
-    <%= f.submit "Search", class: "btn btn-primary" %>
+    <%= f.submit FiverrOrdersController::SEARCH_ACTIONS[:SEARCH_BY_FILTER] , class: "btn btn-primary"%>
 <% end %>
 <!-- List group -->
 

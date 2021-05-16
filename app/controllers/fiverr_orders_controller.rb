@@ -13,6 +13,14 @@ class FiverrOrdersController < ApplicationController
     :UPDATE_AND_STAY => "UPDATE",
     :UPDATE_AND_GOT_TO_ORDER_LIST => "UPDATE AND LEAVE"
   }
+
+    #Esto lo estoy creadno para tener diferentes tipos de busqueda. Por ejmplo busqueda por filtro y una busqueda que revise
+    #todos los campos de la base de datos utilizando LIKE. Bueno quien dice todos no serán todos solo los campos en los cuales
+    #tenga sentido buscar.
+    SEARCH_ACTIONS = {
+    :SEARCH_BY_FILTER => "Filtrar",
+    :FULL_SEARCH => "Buscar"
+  }
     def index
       #esto para definir el espacio se que esto se hace mejor con CSS pero no se como ver despues
         @left_padding = "2px"
@@ -24,112 +32,25 @@ class FiverrOrdersController < ApplicationController
         @order_types_list = OrderType.all
         @order_statuses_list = OrderStatus.all
 
-        #Primero necesito tener un analisis de todos los parametros para saber si estan tratando de filtrar algo
-        #o solamente es el index sin ningun filtro aplicado. Si hay filtro aplicado pues entonces ejecutar el filtro
-        #tal cual. Si no hay filtro aplicado entonces mostrar solo ordenes que no esten entregadas o canceladas.
-        @search_order_type = params["order_type"]
-        @search_order_status = params["order_status"]
-        @search_server = params["server"]
-        @search_traffic = params["site_traffic_status"]
-        @search_site_audit = params["site_audit_status"]
-        @search_order_no = params["order_no"]
-        @search_rank_tracker = params["rank_tracker"]
-        #Si al menos hay presencia de uno de los filtros entonces a filtrar.
-        if  @search_order_type.present? || @search_order_status.present? || @search_server.present? || @search_traffic.present? || @search_site_audit.present? || @search_order_no.present?
+      #En dependencia de las busquedas realizadas seran los resultados que se muestren en la pagina del index
+      #Entocnes de momento estoy teniendo dos formas principales de mostrar resultados. Resultados que se solicitan
+      #por un filtrado y resutlados que se solicitan de una busqueda general. En dependecia de la solicitud serán
+      #los resultados mostrados.
+      if params[:commit] == SEARCH_ACTIONS[:SEARCH_BY_FILTER]
+        #este metodo es el encargado de buscar los resultados segun los valores del filtro
+        search_by_filter
+      elsif params[:commit] == SEARCH_ACTIONS[:FULL_SEARCH]
+        #este metodo es el encargado de realizar la busqueda general en la BD.
+        full_search
+      #No hay filtro de ningun tipo entonces vamos a lo que vamos a mostrar solo ordenes no entregadas ni canceladas
+      else
+        @fiverr_orders = @fiverr_orders.where.not(order_status_id:10)#no canceladas
+        @fiverr_orders = @fiverr_orders.where.not(order_status_id:6)#no entregadas
+      end
 
-          if @search_order_type.present?
-              @order_type_value = @search_order_type["order_type_id"]
-              #Aqui estoy creando una variable del estado del filtro para poder usarla en ontra sesion. El objetivo de esto es que cuando este editando una orden y le de
-              #update entonces regrese a la pagina de donde vino y aplique los mismos filtros que tenia ella misma. Entonces para esto tengo que compartir su valor en una
-              #sesion para que despues cuando vaya a la parte de update del cntrolador poder utilizarla y pasarla como parametro en la url para que este el mismo filtro
-              # de donde salio activo.
-              @order_type_filter_status = @order_type_value#guardando el valor del filtro
-              session[:passed_order_type_filter_status] = @order_type_filter_status#almacenando el valor para que este disponible en la session
-              unless  @order_type_value.length==0
-                  @fiverr_orders = @fiverr_orders.where(order_type_id: @order_type_value)
-              end
-          end
-
-          if @search_order_status.present?
-              @order_status_value = @search_order_status["order_status_id"]
-              #Aqui estoy creando una variable del estado del filtro para poder usarla en ontra sesion. El objetivo de esto es que cuando este editando una orden y le de
-              #update entonces regrese a la pagina de donde vino y aplique los mismos filtros que tenia ella misma. Entonces para esto tengo que compartir su valor en una
-              #sesion para que despues cuando vaya a la parte de update del cntrolador poder utilizarla y pasarla como parametro en la url para que este el mismo filtro
-              # de donde salio activo.
-              @order_status_filter_status = @order_status_value#guardando el valor del filtro
-              session[:passed_order_status_filter_status] = @order_status_filter_status#almacenando el valor para que este disponible en la session
-              unless @order_status_value.length==0
-                  @fiverr_orders = @fiverr_orders.where(order_status_id: @order_status_value)
-              end
-          end
-
-          if @search_server.present?
-              @server_value = @search_server["server_id"]
-              #Aqui estoy creando una variable del estado del filtro para poder usarla en ontra sesion. El objetivo de esto es que cuando este editando una orden y le de
-              #update entonces regrese a la pagina de donde vino y aplique los mismos filtros que tenia ella misma. Entonces para esto tengo que compartir su valor en una
-              #sesion para que despues cuando vaya a la parte de update del cntrolador poder utilizarla y pasarla como parametro en la url para que este el mismo filtro
-              # de donde salio activo.
-              @server_filter_status = @server_value#guardando el valor del filtro
-              session[:passed_server_filter_status] = @server_filter_status#almacenando el valor para que este disponible en la session
-              unless @server_value.length==0
-                  @fiverr_orders = @fiverr_orders.where(server_id: @server_value)
-              end
-          end
-
-          if @search_traffic.present?
-              @traffic_value = @search_traffic["site_traffic_status_id"]
-              #Aqui estoy creando una variable del estado del filtro para poder usarla en ontra sesion. El objetivo de esto es que cuando este editando una orden y le de
-              #update entonces regrese a la pagina de donde vino y aplique los mismos filtros que tenia ella misma. Entonces para esto tengo que compartir su valor en una
-              #sesion para que despues cuando vaya a la parte de update del cntrolador poder utilizarla y pasarla como parametro en la url para que este el mismo filtro
-              # de donde salio activo.
-              @traffic_filter_status = @traffic_value#guardando el valor del filtro
-              session[:passed_traffic_filter_status] = @traffic_filter_status#almacenando el valor para que este disponible en la session
-              unless @traffic_value.length==0
-                  @fiverr_orders = @fiverr_orders.where(traffic:true)
-                  @fiverr_orders = @fiverr_orders.where(site_traffic_status: @traffic_value)
-              end
-          end
-
-          if @search_site_audit.present?
-              @site_audit_value = @search_site_audit["site_audit_status_id"]
-              #Aqui estoy creando una variable del estado del filtro para poder usarla en ontra sesion. El objetivo de esto es que cuando este editando una orden y le de
-              #update entonces regrese a la pagina de donde vino y aplique los mismos filtros que tenia ella misma. Entonces para esto tengo que compartir su valor en una
-              #sesion para que despues cuando vaya a la parte de update del cntrolador poder utilizarla y pasarla como parametro en la url para que este el mismo filtro
-              # de donde salio activo.
-              @site_audit_filter_status = @site_audit_value#guardando el valor del filtro
-              session[:passed_site_audit_filter_status] = @site_audit_filter_status#almacenando el valor para que este disponible en la session
-              unless @site_audit_value.length==0
-                  @fiverr_orders = @fiverr_orders.where(site_audit:true)
-                  @fiverr_orders = @fiverr_orders.where(site_audit_status: @site_audit_value)
-              end
-          end
-
-          if @search_order_no.present?
-              unless @search_order_no.length==0
-                  @fiverr_orders = @fiverr_orders.where(order_no: @search_order_no)
-                  if @fiverr_orders.count==1
-                    redirect_to "/fiverr_orders/#{@fiverr_orders.first.id}/edit"
-                  end
-              end
-          end
-          if @search_rank_tracker.present?
-            @rank_tracker_value = params[:rank_tracker] == "1" ? true : false
-            #Aqui estoy creando una variable del estado del filtro para poder usarla en ontra sesion. El objetivo de esto es que cuando este editando una orden y le de
-            #update entonces regrese a la pagina de donde vino y aplique los mismos filtros que tenia ella misma. Entonces para esto tengo que compartir su valor en una
-            #sesion para que despues cuando vaya a la parte de update del cntrolador poder utilizarla y pasarla como parametro en la url para que este el mismo filtro
-            # de donde salio activo.
-            @rank_tracker_filter_status = params[:rank_tracker]#guardando el valor del filtro
-            session[:passed_rank_tracker_filter_status] = @rank_tracker_filter_status#almacenando el valor para que este disponible en la session
-              @fiverr_orders = @fiverr_orders.where(rank_tracker: @rank_tracker_value)
-          end
-        #No hay filtro de ningun tipo entonces vamos a lo que vamos a mostrar solo ordenes no entregadas ni canceladas
-        else
-          @fiverr_orders = @fiverr_orders.where.not(order_status_id:10)#no canceladas
-          @fiverr_orders = @fiverr_orders.where.not(order_status_id:6)#no entregadas
-        end
-
-
-        @fiverr_orders = @fiverr_orders.order("due_date ASC")
+      #Organizando el resultado de la busqueda de orden mas prioritaria a menos prioritaria guiandonos por la fecha
+      #de vencimiento.
+      @fiverr_orders = @fiverr_orders.order("due_date ASC")
     end
     def new
         @fiverr_order = FiverrOrder.new
@@ -241,5 +162,121 @@ class FiverrOrdersController < ApplicationController
     #Buscar despues bien porque se hizo este metodo y que hace porque me dejo botao
     def fiverr_order_params
         params.require(:fiverr_order).permit(:order_no, :username,:order_type_id,:order_status_id,:server_id,:custom_offer,:site_audit,:site_audit_status,:articles,:traffic,:site_traffic_status,:login_data,:login_data_status,:start_date,:rank_tracker,:comments,:due_date,article_attributes: [:fiverr_order_id,:due_date,:order_type_id,:writers_id,:price,:writingstatus_id,:comments,:url,:key_word,:writing_code,:article_amount,:word_count,:payment_status_id,:payment_date,:payment_details,:created_at,:updated_at,:fiverr_order_id,:order_type_id,:payment_status_id,:writers_id,:writingstatus_id,:_destroy])
+    end
+
+    #Este metodo lo voy a utilizar para devolver el resultado de una busqueda por filtros
+    def search_by_filter
+      #Primero necesito tener un analisis de todos los parametros para saber si estan tratando de filtrar algo
+      #o solamente es el index sin ningun filtro aplicado. Si hay filtro aplicado pues entonces ejecutar el filtro
+      #tal cual. Si no hay filtro aplicado entonces mostrar solo ordenes que no esten entregadas o canceladas.
+      @search_order_type = params["order_type"]
+      @search_order_status = params["order_status"]
+      @search_server = params["server"]
+      @search_traffic = params["site_traffic_status"]
+      @search_site_audit = params["site_audit_status"]
+      @search_order_no = params["order_no"]
+      @search_rank_tracker = params["rank_tracker"]
+      #Si al menos hay presencia de uno de los filtros entonces a filtrar.
+      if  @search_order_type.present? || @search_order_status.present? || @search_server.present? || @search_traffic.present? || @search_site_audit.present? || @search_order_no.present?
+
+        if @search_order_type.present?
+            @order_type_value = @search_order_type["order_type_id"]
+            #Aqui estoy creando una variable del estado del filtro para poder usarla en ontra sesion. El objetivo de esto es que cuando este editando una orden y le de
+            #update entonces regrese a la pagina de donde vino y aplique los mismos filtros que tenia ella misma. Entonces para esto tengo que compartir su valor en una
+            #sesion para que despues cuando vaya a la parte de update del cntrolador poder utilizarla y pasarla como parametro en la url para que este el mismo filtro
+            # de donde salio activo.
+            @order_type_filter_status = @order_type_value#guardando el valor del filtro
+            session[:passed_order_type_filter_status] = @order_type_filter_status#almacenando el valor para que este disponible en la session
+            unless  @order_type_value.length==0
+                @fiverr_orders = @fiverr_orders.where(order_type_id: @order_type_value)
+            end
+        end
+
+        if @search_order_status.present?
+            @order_status_value = @search_order_status["order_status_id"]
+            #Aqui estoy creando una variable del estado del filtro para poder usarla en ontra sesion. El objetivo de esto es que cuando este editando una orden y le de
+            #update entonces regrese a la pagina de donde vino y aplique los mismos filtros que tenia ella misma. Entonces para esto tengo que compartir su valor en una
+            #sesion para que despues cuando vaya a la parte de update del cntrolador poder utilizarla y pasarla como parametro en la url para que este el mismo filtro
+            # de donde salio activo.
+            @order_status_filter_status = @order_status_value#guardando el valor del filtro
+            session[:passed_order_status_filter_status] = @order_status_filter_status#almacenando el valor para que este disponible en la session
+            unless @order_status_value.length==0
+                @fiverr_orders = @fiverr_orders.where(order_status_id: @order_status_value)
+            end
+        end
+
+        if @search_server.present?
+            @server_value = @search_server["server_id"]
+            #Aqui estoy creando una variable del estado del filtro para poder usarla en ontra sesion. El objetivo de esto es que cuando este editando una orden y le de
+            #update entonces regrese a la pagina de donde vino y aplique los mismos filtros que tenia ella misma. Entonces para esto tengo que compartir su valor en una
+            #sesion para que despues cuando vaya a la parte de update del cntrolador poder utilizarla y pasarla como parametro en la url para que este el mismo filtro
+            # de donde salio activo.
+            @server_filter_status = @server_value#guardando el valor del filtro
+            session[:passed_server_filter_status] = @server_filter_status#almacenando el valor para que este disponible en la session
+            unless @server_value.length==0
+                @fiverr_orders = @fiverr_orders.where(server_id: @server_value)
+            end
+        end
+
+        if @search_traffic.present?
+            @traffic_value = @search_traffic["site_traffic_status_id"]
+            #Aqui estoy creando una variable del estado del filtro para poder usarla en ontra sesion. El objetivo de esto es que cuando este editando una orden y le de
+            #update entonces regrese a la pagina de donde vino y aplique los mismos filtros que tenia ella misma. Entonces para esto tengo que compartir su valor en una
+            #sesion para que despues cuando vaya a la parte de update del cntrolador poder utilizarla y pasarla como parametro en la url para que este el mismo filtro
+            # de donde salio activo.
+            @traffic_filter_status = @traffic_value#guardando el valor del filtro
+            session[:passed_traffic_filter_status] = @traffic_filter_status#almacenando el valor para que este disponible en la session
+            unless @traffic_value.length==0
+                @fiverr_orders = @fiverr_orders.where(traffic:true)
+                @fiverr_orders = @fiverr_orders.where(site_traffic_status: @traffic_value)
+            end
+        end
+
+        if @search_site_audit.present?
+            @site_audit_value = @search_site_audit["site_audit_status_id"]
+            #Aqui estoy creando una variable del estado del filtro para poder usarla en ontra sesion. El objetivo de esto es que cuando este editando una orden y le de
+            #update entonces regrese a la pagina de donde vino y aplique los mismos filtros que tenia ella misma. Entonces para esto tengo que compartir su valor en una
+            #sesion para que despues cuando vaya a la parte de update del cntrolador poder utilizarla y pasarla como parametro en la url para que este el mismo filtro
+            # de donde salio activo.
+            @site_audit_filter_status = @site_audit_value#guardando el valor del filtro
+            session[:passed_site_audit_filter_status] = @site_audit_filter_status#almacenando el valor para que este disponible en la session
+            unless @site_audit_value.length==0
+                @fiverr_orders = @fiverr_orders.where(site_audit:true)
+                @fiverr_orders = @fiverr_orders.where(site_audit_status: @site_audit_value)
+            end
+        end
+
+        if @search_order_no.present?
+            unless @search_order_no.length==0
+                @fiverr_orders = @fiverr_orders.where(order_no: @search_order_no)
+                if @fiverr_orders.count==1
+                  redirect_to "/fiverr_orders/#{@fiverr_orders.first.id}/edit"
+                end
+            end
+        end
+        if @search_rank_tracker.present?
+          @rank_tracker_value = params[:rank_tracker] == "1" ? true : false
+          #Aqui estoy creando una variable del estado del filtro para poder usarla en ontra sesion. El objetivo de esto es que cuando este editando una orden y le de
+          #update entonces regrese a la pagina de donde vino y aplique los mismos filtros que tenia ella misma. Entonces para esto tengo que compartir su valor en una
+          #sesion para que despues cuando vaya a la parte de update del cntrolador poder utilizarla y pasarla como parametro en la url para que este el mismo filtro
+          # de donde salio activo.
+          @rank_tracker_filter_status = params[:rank_tracker]#guardando el valor del filtro
+          session[:passed_rank_tracker_filter_status] = @rank_tracker_filter_status#almacenando el valor para que este disponible en la session
+            @fiverr_orders = @fiverr_orders.where(rank_tracker: @rank_tracker_value)
+        end
+      end
+    end
+
+    #Este metodo lo voy a utilizar para devolver el resultado de una busqueda por los campos de la base de datos que
+    #me interesen
+    def full_search
+      #Obteniendo resultados en el campo order_no
+      @fiverr_orders_1 = @fiverr_orders.where("order_no LIKE ?", "%" + params["order_no"] + "%")
+      #Obteniendo resultados en el campo comments
+      @fiverr_orders_2 = @fiverr_orders.where("comments LIKE ?", "%" + params["order_no"] + "%")
+      #Obteniendo resultados en el campo username
+      @fiverr_orders_3 = @fiverr_orders.where("username LIKE ?", "%" + params["order_no"] + "%")
+      #Añadiendo los resultados obtenidos para resumirlos.
+      @fiverr_orders = @fiverr_orders_1 + @fiverr_orders_2 + @fiverr_orders_3
     end
 end

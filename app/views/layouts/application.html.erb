@@ -53,9 +53,9 @@
           <hr>
 
           <%= simple_form_for :search, url: fiverr_orders_path , method: "GET", html: { class: 'form-inline' } do |f| %>
-              <%= label_tag("No. Orden") %>
+              <%= label_tag("Busqueda General Integral ;)") %>
               <%= text_field_tag(:order_no) %>
-              <%= f.submit "Search", class: "btn btn-primary" %>
+              <%= f.submit FiverrOrdersController::SEARCH_ACTIONS[:FULL_SEARCH] , class: "btn btn-primary"%>
           <% end %>
 
           <!--REFERENTE A WRITERS-->
