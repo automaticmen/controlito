@@ -98,7 +98,7 @@ class FiverrOrdersController < ApplicationController
           if params[:commit] == UPDATE_ACTIONS[:UPDATE_AND_STAY]
             redirect_to "/fiverr_orders/#{fiverr_order.id}/edit"
           elsif params[:commit] == UPDATE_ACTIONS[:UPDATE_AND_GOT_TO_ORDER_LIST]
-            redirect_to "/fiverr_orders?utf8=✓&order_type[order_type_id]=#{@order_type_filter_status}&order_status[order_status_id]=#{@order_status_filter_status}&server[server_id]=#{@server_filter_status}&site_traffic_status[site_traffic_status_id]=#{@traffic_filter_status}&site_audit_status[site_audit_status_id]=#{@site_audit_filter_status}&rank_tracker=#{@rank_tracker_filter_status}&order_no=}&commit=Search",turbolinks: false
+            redirect_to "/fiverr_orders?utf8=✓&order_type[order_type_id]=#{@order_type_filter_status}&order_status[order_status_id]=#{@order_status_filter_status}&server[server_id]=#{@server_filter_status}&site_traffic_status[site_traffic_status_id]=#{@traffic_filter_status}&site_audit_status[site_audit_status_id]=#{@site_audit_filter_status}&rank_tracker=#{@rank_tracker_filter_status}&order_no=}&commit=Filtrar",turbolinks: false
           else
             flash[:error] = "NON VALID UPDATE ACTION"
           end
