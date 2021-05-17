@@ -6,7 +6,7 @@
     <!--En el controlador se hace un agrupamiento por estados de ordenes y despues un
     conteo de los mismos. Accediendo al [0] de la respuesta obtenemos el order_status_id
     correspondiente.-->
-    <a href="/fiverr_orders?utf8=✓&order_type%5Border_type_id%5D=<%= @basic_type_id %>&order_status%5Border_status_id%5D=<%= basic_stat[0] %>&server%5Bserver_id%5D=&order_no=&commit=Search"><%= OrderStatus.find(basic_stat[0]).name%>  <%= basic_stat[1]%></a><br>
+    <a href="/fiverr_orders?utf8=✓&order_type%5Border_type_id%5D=<%= @basic_type_id %>&order_status%5Border_status_id%5D=<%= basic_stat[0] %>&server%5Bserver_id%5D=&order_no=&commit=Filtrar"><%= OrderStatus.find(basic_stat[0]).name%>  <%= basic_stat[1]%></a><br>
     <% end %>
   </div>
   <div class="col-md-4">
@@ -16,7 +16,7 @@
     <!--En el controlador se hace un agrupamiento por estados de ordenes y despues un
     conteo de los mismos. Accediendo al [0] de la respuesta obtenemos el order_status_id
     correspondiente.-->
-    <a href="/fiverr_orders?utf8=✓&order_type%5Border_type_id%5D=<%= @std_type_id %>&order_status%5Border_status_id%5D=<%= std_stat[0] %>&server%5Bserver_id%5D=&order_no=&commit=Search"><%= OrderStatus.find(std_stat[0]).name%>  <%= std_stat[1]%></a><br>
+    <a href="/fiverr_orders?utf8=✓&order_type%5Border_type_id%5D=<%= @std_type_id %>&order_status%5Border_status_id%5D=<%= std_stat[0] %>&server%5Bserver_id%5D=&order_no=&commit=Filtrar"><%= OrderStatus.find(std_stat[0]).name%>  <%= std_stat[1]%></a><br>
     <% end %>
   </div>
   <div class="col-md-4">
@@ -26,7 +26,7 @@
     <!--En el controlador se hace un agrupamiento por estados de ordenes y despues un
     conteo de los mismos. Accediendo al [0] de la respuesta obtenemos el order_status_id
     correspondiente.-->
-    <a href="/fiverr_orders?utf8=✓&order_type%5Border_type_id%5D=<%= @prem_type_id %>&order_status%5Border_status_id%5D=<%= prem_stat[0] %>&server%5Bserver_id%5D=&order_no=&commit=Search"><%= OrderStatus.find(prem_stat[0]).name%>  <%= prem_stat[1]%></a><br>
+    <a href="/fiverr_orders?utf8=✓&order_type%5Border_type_id%5D=<%= @prem_type_id %>&order_status%5Border_status_id%5D=<%= prem_stat[0] %>&server%5Bserver_id%5D=&order_no=&commit=Filtrar"><%= OrderStatus.find(prem_stat[0]).name%>  <%= prem_stat[1]%></a><br>
     <% end %>
   </div>
 </div>
@@ -39,7 +39,7 @@
       <!--En el controlador se hace un agrupamiento por estados de ordenes y despues un
       conteo de los mismos. Accediendo al [0] de la respuesta obtenemos el order_status_id
       correspondiente.-->
-      <a href="/fiverr_orders?utf8=✓&order_type%5Border_type_id%5D=<%= @basic_type_id %>&order_status%5Border_status_id%5D=&server%5Bserver_id%5D=&site_traffic_status%5Bsite_traffic_status_id%5D=&site_audit_status%5Bsite_audit_status_id%5D=<%=basic_site_audit_stat[0]%>&order_no=&commit=Search"><%=ExtrasStatus.find(basic_site_audit_stat[0]).name%> <%= basic_site_audit_stat[1]%></a><br>
+      <a href="/fiverr_orders?utf8=✓&order_type%5Border_type_id%5D=<%= @basic_type_id %>&order_status%5Border_status_id%5D=&server%5Bserver_id%5D=&site_traffic_status%5Bsite_traffic_status_id%5D=&site_audit_status%5Bsite_audit_status_id%5D=<%=basic_site_audit_stat[0]%>&order_no=&commit=Filtrar"><%=ExtrasStatus.find(basic_site_audit_stat[0]).name%> <%= basic_site_audit_stat[1]%></a><br>
       <% end %>
     </div>
     <div class="row-md-6">
@@ -48,7 +48,7 @@
       <!--En el controlador se hace un agrupamiento por estados de ordenes y despues un
       conteo de los mismos. Accediendo al [0] de la respuesta obtenemos el order_status_id
       correspondiente.-->
-      <a href="/fiverr_orders?utf8=✓&order_type%5Border_type_id%5D=<%=@basic_type_id%>&order_status%5Border_status_id%5D=&server%5Bserver_id%5D=&site_traffic_status%5Bsite_traffic_status_id%5D=<%=basic_traffic_order_stat[0]%>&site_audit_status%5Bsite_audit_status_id%5D=&order_no=&commit=Search"><%=ExtrasStatus.find(basic_traffic_order_stat[0]).name%> <%= basic_traffic_order_stat[1]%></a><br>
+      <a href="/fiverr_orders?utf8=✓&order_type%5Border_type_id%5D=<%=@basic_type_id%>&order_status%5Border_status_id%5D=&server%5Bserver_id%5D=&site_traffic_status%5Bsite_traffic_status_id%5D=<%=basic_traffic_order_stat[0]%>&site_audit_status%5Bsite_audit_status_id%5D=&order_no=&commit=Filtrar"><%=ExtrasStatus.find(basic_traffic_order_stat[0]).name%> <%= basic_traffic_order_stat[1]%></a><br>
       <% end %>
     </div>
   </div>
@@ -60,7 +60,7 @@
       <!--En el controlador se hace un agrupamiento por estados de ordenes y despues un
       conteo de los mismos. Accediendo al [0] de la respuesta obtenemos el order_status_id
       correspondiente.-->
-      <a href="/fiverr_orders?utf8=✓&order_type%5Border_type_id%5D=<%= @std_type_id %>&order_status%5Border_status_id%5D=&server%5Bserver_id%5D=&site_traffic_status%5Bsite_traffic_status_id%5D=&site_audit_status%5Bsite_audit_status_id%5D=<%=std_site_audit_stat[0]%>&order_no=&commit=Search"><%=ExtrasStatus.find(std_site_audit_stat[0]).name%> <%= std_site_audit_stat[1]%></a><br>
+      <a href="/fiverr_orders?utf8=✓&order_type%5Border_type_id%5D=<%= @std_type_id %>&order_status%5Border_status_id%5D=&server%5Bserver_id%5D=&site_traffic_status%5Bsite_traffic_status_id%5D=&site_audit_status%5Bsite_audit_status_id%5D=<%=std_site_audit_stat[0]%>&order_no=&commit=Filtrar"><%=ExtrasStatus.find(std_site_audit_stat[0]).name%> <%= std_site_audit_stat[1]%></a><br>
       <% end %>
     </div>
     <div class="row-md-6">
@@ -69,7 +69,7 @@
       <!--En el controlador se hace un agrupamiento por estados de ordenes y despues un
       conteo de los mismos. Accediendo al [0] de la respuesta obtenemos el order_status_id
       correspondiente.-->
-      <a href="/fiverr_orders?utf8=✓&order_type%5Border_type_id%5D=<%=@std_type_id%>&order_status%5Border_status_id%5D=&server%5Bserver_id%5D=&site_traffic_status%5Bsite_traffic_status_id%5D=<%=std_traffic_order_stat[0]%>&site_audit_status%5Bsite_audit_status_id%5D=&order_no=&commit=Search"><%=ExtrasStatus.find(std_traffic_order_stat[0]).name%> <%= std_traffic_order_stat[1]%></a><br>
+      <a href="/fiverr_orders?utf8=✓&order_type%5Border_type_id%5D=<%=@std_type_id%>&order_status%5Border_status_id%5D=&server%5Bserver_id%5D=&site_traffic_status%5Bsite_traffic_status_id%5D=<%=std_traffic_order_stat[0]%>&site_audit_status%5Bsite_audit_status_id%5D=&order_no=&commit=Filtrar"><%=ExtrasStatus.find(std_traffic_order_stat[0]).name%> <%= std_traffic_order_stat[1]%></a><br>
       <% end %>
     </div>
   </div>
@@ -81,22 +81,22 @@
       <!--En el controlador se hace un agrupamiento por estados de ordenes y despues un
       conteo de los mismos. Accediendo al [0] de la respuesta obtenemos el order_status_id
       correspondiente.-->
-      <a href="/fiverr_orders?utf8=✓&order_type%5Border_type_id%5D=<%= @prem_type_id %>&order_status%5Border_status_id%5D=&server%5Bserver_id%5D=&site_traffic_status%5Bsite_traffic_status_id%5D=&site_audit_status%5Bsite_audit_status_id%5D=<%=prem_site_audit_stat[0]%>&order_no=&commit=Search"><%=ExtrasStatus.find(prem_site_audit_stat[0]).name%> <%= prem_site_audit_stat[1]%></a><br>
+      <a href="/fiverr_orders?utf8=✓&order_type%5Border_type_id%5D=<%= @prem_type_id %>&order_status%5Border_status_id%5D=&server%5Bserver_id%5D=&site_traffic_status%5Bsite_traffic_status_id%5D=&site_audit_status%5Bsite_audit_status_id%5D=<%=prem_site_audit_stat[0]%>&order_no=&commit=Filtrar"><%=ExtrasStatus.find(prem_site_audit_stat[0]).name%> <%= prem_site_audit_stat[1]%></a><br>
       <% end %>
     </div>
     <div class="row-md-6">
       <h4>Trafico Estado</h4>
-      <a href="/fiverr_orders?utf8=✓&order_type%5Border_type_id%5D=3&order_status%5Border_status_id%5D=4&server%5Bserver_id%5D=&site_traffic_status%5Bsite_traffic_status_id%5D=1&site_audit_status%5Bsite_audit_status_id%5D=&order_no=&commit=Search">Listo para hacer</a><br>
+      <a href="/fiverr_orders?utf8=✓&order_type%5Border_type_id%5D=3&order_status%5Border_status_id%5D=4&server%5Bserver_id%5D=&site_traffic_status%5Bsite_traffic_status_id%5D=1&site_audit_status%5Bsite_audit_status_id%5D=&order_no=&commit=Filtrar">Listo para hacer</a><br>
       <% @prem_traffic_order_stats.each do |prem_traffic_order_stat| %>
       <!--En el controlador se hace un agrupamiento por estados de ordenes y despues un
       conteo de los mismos. Accediendo al [0] de la respuesta obtenemos el order_status_id
       correspondiente.-->
-      <a href="/fiverr_orders?utf8=✓&order_type%5Border_type_id%5D=<%=@prem_type_id%>&order_status%5Border_status_id%5D=&server%5Bserver_id%5D=&site_traffic_status%5Bsite_traffic_status_id%5D=<%=prem_traffic_order_stat[0]%>&site_audit_status%5Bsite_audit_status_id%5D=&order_no=&commit=Search"><%=ExtrasStatus.find(prem_traffic_order_stat[0]).name%> <%= prem_traffic_order_stat[1]%></a><br>
+      <a href="/fiverr_orders?utf8=✓&order_type%5Border_type_id%5D=<%=@prem_type_id%>&order_status%5Border_status_id%5D=&server%5Bserver_id%5D=&site_traffic_status%5Bsite_traffic_status_id%5D=<%=prem_traffic_order_stat[0]%>&site_audit_status%5Bsite_audit_status_id%5D=&order_no=&commit=Filtrar"><%=ExtrasStatus.find(prem_traffic_order_stat[0]).name%> <%= prem_traffic_order_stat[1]%></a><br>
       <% end %>
     </div>
     <div class="row-md-6">
       <h4>RankTracker Estado</h4>
-      <a href="/fiverr_orders?utf8=✓&order_type%5Border_type_id%5D=3&order_status%5Border_status_id%5D=6&server%5Bserver_id%5D=&site_traffic_status%5Bsite_traffic_status_id%5D=&site_audit_status%5Bsite_audit_status_id%5D=&rank_tracker=0&order_no=&commit=Search">Listo para hacer</a><br>
+      <a href="/fiverr_orders?utf8=✓&order_type%5Border_type_id%5D=3&order_status%5Border_status_id%5D=6&server%5Bserver_id%5D=&site_traffic_status%5Bsite_traffic_status_id%5D=&site_audit_status%5Bsite_audit_status_id%5D=&rank_tracker=0&order_no=&commit=Filtrar">Listo para hacer</a><br>
     </div>
   </div>
 
