@@ -281,6 +281,7 @@ class FiverrOrdersController < ApplicationController
       @fiverr_orders_3 = @fiverr_orders.where("username LIKE ?", "%" + params["order_no"] + "%")
       #Añadiendo los resultados obtenidos para resumirlos.
       @fiverr_orders = @fiverr_orders_1 + @fiverr_orders_2 + @fiverr_orders_3
+      #Para borrar duplicados si loos hubiera
       @fiverr_orders = @fiverr_orders.uniq
     end
 end
