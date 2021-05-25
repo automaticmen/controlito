@@ -156,6 +156,17 @@ class FiverrOrdersController < ApplicationController
         @prem_stats = @prem_orders.group(:order_status_id).count
         render "traffic_gig_summary"
       end
+      if params["order_type"] == "ELITE_BACKLINKS"
+        @elite_bl_type_id = OrderType.find_by(name:"ELITE_BACKLINKS").id#Esto es porque el id puede cambair cuando cambias de un lugar a Otro lo que debes garantizar es que el nombre sea el mismo
+        @std_type_id = OrderType.find_by(name:"PR9_STANDARD").id
+        @prem_type_id = OrderType.find_by(name:"PR9_PREMIUM").id
+
+        #Elite Backlinks
+        @elite_bl_orders = FiverrOrder.where(:order_type_id=>@elite_bl_type_id)
+        @elite_bl_stats = @elite_bl_orders.group(:order_status_id).count
+
+        render "elite_bl_gig_summary"
+      end
     end
     private
     #Buscar despues bien porque se hizo este metodo y que hace porque me dejo botao
