@@ -28,3 +28,16 @@ COMANDOS UTILES
 git pull git@github.com:automaticmen/controlito.git para bajar las cosas directamente de githug para controlito
 RAILS_ENV=production rails c Para acceder a IRB y hacer cosas desde la consola
 Hirb.enable Hirb es para que las consultas y tablas SQWL se vean mas bonitas en la consola
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+25/05/2021 haciendo cambios para poder tener ordenes del servicio nuevo ELITE BACKLINKS. 
+COSAS QUE NO PUDES OLVIDAR HACER ARRIBA CUANDO HAGAS EL DEPLOY
+
+1 Cuando vayas a hacer pull Te va a dar bateo con el Gmefile-Lock y la madre de los tomates entonces has esto:
+git checkout Gemfile.lock
+git reset --hard HEAD
+
+2 Crear el Tipo de Orden "ELITE_BACKLINKS" en OrderType . esto te va a dar bateo con las versiones de Gemas y toda la resingueta. has esto:
+bundle install. Luego entonces añades el tipo de orden nuevo y no debe haber problemas de ningun tipo.
+
+
