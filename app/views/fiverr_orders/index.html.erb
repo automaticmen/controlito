@@ -17,6 +17,7 @@
 <% end %>
 <!-- List group -->
 
+<h4> <%= @fiverr_orders.count %> resultados</h4>
 <div class="list-group" id="fiverrOrdersList" role="tablist">
     <% @fiverr_orders.each do |order| %>
       <!--Crear una fila para poner la info referente a la orden-->
