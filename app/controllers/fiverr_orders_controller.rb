@@ -31,6 +31,8 @@ class FiverrOrdersController < ApplicationController
     @@order_fecha = "ASC"
     @@order_tipo_orden = "ASC"
     @@order_estado_orden = "ASC"
+    @@last_search_type = ""
+    @@last_search_value = ""
     def index
       #esto para definir el espacio se que esto se hace mejor con CSS pero no se como ver despues
         @left_padding = "2px"
@@ -47,9 +49,14 @@ class FiverrOrdersController < ApplicationController
       #por un filtrado y resutlados que se solicitan de una busqueda general. En dependecia de la solicitud serán
       #los resultados mostrados.
       if params[:commit] == SEARCH_ACTIONS[:SEARCH_BY_FILTER]
+        @@last_search_type = "FILTER"
         #este metodo es el encargado de buscar los resultados segun los valores del filtro
         search_by_filter
       elsif params[:commit] == SEARCH_ACTIONS[:FULL_SEARCH]
+        @@last_search_type = "FULL_SEARCH"
+        @last_search_value = params["order_no"]
+        session[:passed_last_search_value] = @@last_search_value#almacenando el valor para que este disponible en la session
+        @@last_search_value = params["order_no"]
         #este metodo es el encargado de realizar la busqueda general en la BD.
         full_search
       elsif params[:commit] == SEARCH_ACTIONS[:ORDER_NO_ORDEN]
@@ -308,19 +315,17 @@ class FiverrOrdersController < ApplicationController
     #Este metodo lo voy a utilizar para devolver el resultado de una busqueda por los campos de la base de datos que
     #me interesen
     def full_search
-      #Obteniendo resultados en el campo order_no
-      @fiverr_orders_1 = @fiverr_orders.where("order_no LIKE ?", "%" + params["order_no"] + "%")
-      #Obteniendo resultados en el campo comments
-      @fiverr_orders_2 = @fiverr_orders.where("comments LIKE ?", "%" + params["order_no"] + "%")
-      #Obteniendo resultados en el campo username
-      @fiverr_orders_3 = @fiverr_orders.where("username LIKE ?", "%" + params["order_no"] + "%")
-      #Añadiendo los resultados obtenidos para resumirlos.
-      @fiverr_orders = @fiverr_orders_1 + @fiverr_orders_2 + @fiverr_orders_3
+      #Consulta para buscar por los campos NoOrde, Username y Comments
+      @fiverr_orders = @fiverr_orders.where("order_no LIKE ? OR comments LIKE ? OR username LIKE ?","%" + @@last_search_value + "%","%" + @@last_search_value + "%","%" + @@last_search_value + "%")
       #Para borrar duplicados si loos hubiera
-      @fiverr_orders = @fiverr_orders.uniq
+      #@fiverr_orders = @fiverr_orders.uniq
     end
     def order_by_no_orden
-        search_by_filter_no_order
+        if @@last_search_type == "FILTER"
+            search_by_filter_no_order
+        elsif @@last_search_type == "FULL_SEARCH"
+            full_search
+        end
         if @@order_no_orden == "ASC"
             #ASC
                 @fiverr_orders = @fiverr_orders.order("order_no ASC")
@@ -332,7 +337,11 @@ class FiverrOrdersController < ApplicationController
         end      
     end
     def order_by_username
-        search_by_filter_no_order
+        if @@last_search_type == "FILTER"
+            search_by_filter_no_order
+        elsif @@last_search_type == "FULL_SEARCH"
+            full_search
+        end
         if @@order_username == "ASC"
             #ASC
                 @fiverr_orders = @fiverr_orders.order("username ASC")
@@ -344,7 +353,11 @@ class FiverrOrdersController < ApplicationController
         end      
     end
     def order_by_date
-        search_by_filter_no_order
+        if @@last_search_type == "FILTER"
+            search_by_filter_no_order
+        elsif @@last_search_type == "FULL_SEARCH"
+            full_search
+        end
         if @@order_fecha == "ASC"
             #ASC
                 @fiverr_orders = @fiverr_orders.order("due_date ASC")
@@ -358,7 +371,11 @@ class FiverrOrdersController < ApplicationController
         end      
     end
     def order_by_tipo_orden
-        search_by_filter_no_order
+        if @@last_search_type == "FILTER"
+            search_by_filter_no_order
+        elsif @@last_search_type == "FULL_SEARCH"
+            full_search
+        end
         if @@order_tipo_orden == "ASC"
             #ASC
                 @fiverr_orders = @fiverr_orders.order("order_type_id ASC")
@@ -372,7 +389,11 @@ class FiverrOrdersController < ApplicationController
         end      
     end
     def order_by_estado_orden
-        search_by_filter_no_order
+        if @@last_search_type == "FILTER"
+            search_by_filter_no_order
+        elsif @@last_search_type == "FULL_SEARCH"
+            full_search
+        end
         if @@order_estado_orden == "ASC"
             #ASC
                 @fiverr_orders = @fiverr_orders.order("order_status_id ASC")
