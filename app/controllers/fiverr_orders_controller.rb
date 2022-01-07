@@ -285,14 +285,18 @@ class FiverrOrdersController < ApplicationController
             end
         end
         if @search_rank_tracker.present?
-          @rank_tracker_value = params[:rank_tracker] == "1" ? true : false
-          #Aqui estoy creando una variable del estado del filtro para poder usarla en ontra sesion. El objetivo de esto es que cuando este editando una orden y le de
-          #update entonces regrese a la pagina de donde vino y aplique los mismos filtros que tenia ella misma. Entonces para esto tengo que compartir su valor en una
-          #sesion para que despues cuando vaya a la parte de update del cntrolador poder utilizarla y pasarla como parametro en la url para que este el mismo filtro
-          # de donde salio activo.
-          @rank_tracker_filter_status = params[:rank_tracker]#guardando el valor del filtro
-          session[:passed_rank_tracker_filter_status] = @rank_tracker_filter_status#almacenando el valor para que este disponible en la session
-            @fiverr_orders = @fiverr_orders.where(rank_tracker: @rank_tracker_value)
+            @rank_tracker_filter_status = params[:rank_tracker]#guardando el valor del filtro
+            session[:passed_rank_tracker_filter_status] = @rank_tracker_filter_status#almacenando el valor para que este disponible en la session
+            if @rank_tracker_filter_status!="2"
+                @rank_tracker_value = params[:rank_tracker] == "1" ? true : false
+                #Aqui estoy creando una variable del estado del filtro para poder usarla en ontra sesion. El objetivo de esto es que cuando este editando una orden y le de
+                #update entonces regrese a la pagina de donde vino y aplique los mismos filtros que tenia ella misma. Entonces para esto tengo que compartir su valor en una
+                #sesion para que despues cuando vaya a la parte de update del cntrolador poder utilizarla y pasarla como parametro en la url para que este el mismo filtro
+                # de donde salio activo.
+                @rank_tracker_filter_status = params[:rank_tracker]#guardando el valor del filtro
+                session[:passed_rank_tracker_filter_status] = @rank_tracker_filter_status#almacenando el valor para que este disponible en la session
+                @fiverr_orders = @fiverr_orders.where(rank_tracker: @rank_tracker_value)
+            end
         end
       end
 
@@ -471,14 +475,18 @@ class FiverrOrdersController < ApplicationController
             end
         end
         if @search_rank_tracker.present?
-          @rank_tracker_value = params[:rank_tracker] == "1" ? true : false
-          #Aqui estoy creando una variable del estado del filtro para poder usarla en ontra sesion. El objetivo de esto es que cuando este editando una orden y le de
-          #update entonces regrese a la pagina de donde vino y aplique los mismos filtros que tenia ella misma. Entonces para esto tengo que compartir su valor en una
-          #sesion para que despues cuando vaya a la parte de update del cntrolador poder utilizarla y pasarla como parametro en la url para que este el mismo filtro
-          # de donde salio activo.
-          @rank_tracker_filter_status = params[:rank_tracker]#guardando el valor del filtro
-          session[:passed_rank_tracker_filter_status] = @rank_tracker_filter_status#almacenando el valor para que este disponible en la session
-            @fiverr_orders = @fiverr_orders.where(rank_tracker: @rank_tracker_value)
+            @rank_tracker_filter_status = params[:rank_tracker]#guardando el valor del filtro
+            session[:passed_rank_tracker_filter_status] = @rank_tracker_filter_status#almacenando el valor para que este disponible en la session
+            if @rank_tracker_filter_status!="2"
+                @rank_tracker_value = params[:rank_tracker] == "1" ? true : false
+                #Aqui estoy creando una variable del estado del filtro para poder usarla en ontra sesion. El objetivo de esto es que cuando este editando una orden y le de
+                #update entonces regrese a la pagina de donde vino y aplique los mismos filtros que tenia ella misma. Entonces para esto tengo que compartir su valor en una
+                #sesion para que despues cuando vaya a la parte de update del cntrolador poder utilizarla y pasarla como parametro en la url para que este el mismo filtro
+                # de donde salio activo.
+                @rank_tracker_filter_status = params[:rank_tracker]#guardando el valor del filtro
+                session[:passed_rank_tracker_filter_status] = @rank_tracker_filter_status#almacenando el valor para que este disponible en la session
+                @fiverr_orders = @fiverr_orders.where(rank_tracker: @rank_tracker_value)
+            end
         end
       end
     end
