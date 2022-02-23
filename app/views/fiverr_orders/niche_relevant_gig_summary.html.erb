@@ -1,0 +1,14 @@
+<!-- En este caso estoy dvidiendo por filas por si aparecen mas contenidos que quiera poner debajo.
+pero de momento solo veremos el resumen de niche relevant que ademas no tiene paquetes: basico,
+standard ni premium. Es un paquete unico. -->
+<div class="row">
+  <div class="col-md-4">
+    <h3>Resumen niche Relevant</h3>
+    <% @niche_relevant_stats.each do |niche_relevant_stat| %>
+    <!--En el controlador se hace un agrupamiento por estados de ordenes y despues un
+    conteo de los mismos. Accediendo al [0] de la respuesta obtenemos el order_status_id
+    correspondiente.-->
+    <a href="/fiverr_orders?utf8=✓&order_type%5Border_type_id%5D=<%= @niche_relevant_type_id %>&order_status%5Border_status_id%5D=<%= niche_relevant_stat[0] %>&server%5Bserver_id%5D=&order_no=&commit=Filtrar"><%= OrderStatus.find(niche_relevant_stat[0]).name%>  <%= niche_relevant_stat[1]%></a><br>
+    <% end %>
+  </div>
+</div>
