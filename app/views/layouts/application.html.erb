@@ -28,7 +28,13 @@
           <!--CREAR ORDEN NUEVA-->
           <h4>CREAR ORDEN</h4>
           <a href="/fiverr_orders/new">Nueva Orden</a><br>
-          <a href="/fiverr_orders">Todas</a><br>
+          <a href="/fiverr_orders">Todas</a><br><br>
+
+          <%= simple_form_for :search, url: fiverr_orders_path , method: "GET", html: { class: 'form-inline' } do |f| %>
+          <%= label_tag("Busqueda General Integral ;)") %>
+          <%= text_field_tag(:order_no) %>
+          <%= f.submit FiverrOrdersController::SEARCH_ACTIONS[:FULL_SEARCH] , class: "btn btn-primary"%>
+          <% end %><br>
 
           <!--REFERENTE A PR9-->
           <h4>GIG PR9</h4>
@@ -57,14 +63,6 @@
           <a href="/articles/new">Nuevo</a><br>
           <a href="#">Resumen</a><br>
           <a href="/articles">Todos</a><br>
-
-          <hr>
-
-          <%= simple_form_for :search, url: fiverr_orders_path , method: "GET", html: { class: 'form-inline' } do |f| %>
-              <%= label_tag("Busqueda General Integral ;)") %>
-              <%= text_field_tag(:order_no) %>
-              <%= f.submit FiverrOrdersController::SEARCH_ACTIONS[:FULL_SEARCH] , class: "btn btn-primary"%>
-          <% end %>
 
           <!--REFERENTE A WRITERS-->
           <!-- <h4>WRITERS</h4>
