@@ -5,7 +5,7 @@ Pasos para el deplyment de controlito hasta ahora
 4 Fijate que ahi en la parte Command for entering to virtual environment	tienes un camino eso es para entrar en el entorno de la app.
 5 Lugeo ve al command line y pega el "Command for entering to virtual environment"
 6 luego desplazate hacia la carpeta de controlito cd controlito
-7 ahi en la carpeta ejecuta gem install bundler
+7 ahi en la carpeta ejecuta gem install bundler. Ojo si esto te da este error: Ruby 2.3 to 2.5 can't install bundler se soluciona haciendo esto: gem install bundler -v '~> 2.0, < 2.4'
 8 luego bundle install ahi va a empezar a instalar las cosas y puede que se demore un poquito tu espera tranquilo, mientras escrivbo esto estoy esperando , y espero mas y un poquito mas y quizas algo mas :) incluso mas que te puedo decir y mas y mas y mas y mas
 9 Ya termino ahora comienza la pasion trata de ejecutar la app.
 10 En tu pc estabas en mode desarrollo pero aqui es produccion. No tienes base de datos de produccion por eso te da el berro
